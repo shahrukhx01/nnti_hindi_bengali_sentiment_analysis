@@ -15,6 +15,7 @@ def main():
     model = HindiLSTMClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], vocab_size=len(data.vocab), \
                                 hidden_size=32, embedding_size=300, weights=torch.FloatTensor(embedding_weights.T),\
                                 lstm_layers=2)
+    model.load_state_dict(torch.load('hindi_classifier.pth'))
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
     train_model(model, optimizer, data, config_dict['batch_size'], max_epochs=5)
 

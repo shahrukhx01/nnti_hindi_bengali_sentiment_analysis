@@ -1,8 +1,8 @@
 file_paths = \
 {
-'data_file': '/content/data/hindi_hatespeech.tsv',\
-'stpwds_file':'/content/data/stopwords-hi.txt',\
-'embeddings_path':'/content/artefacts/embedding_weights_all_sample.pickle'
+'data_file': 'data/hindi_hatespeech.tsv',\
+'stpwds_file':'data/stopwords-hi.txt',\
+'embeddings_path':'artefacts/embedding_weights_all_sample.pickle'
 }
 
 batch_size = 32

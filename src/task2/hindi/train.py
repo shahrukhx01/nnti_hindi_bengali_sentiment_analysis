@@ -6,13 +6,12 @@ from torch import nn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
 def forward_pass(model, criterion, batch, targets, lengths):
-    pred = model(torch.autograd.Variable(batch), lengths.cpu().numpy())
-    loss = criterion(pred, torch.autograd.Variable(targets))
+   
     return pred, loss
 
 def train_model(model, optimizer, data, batch_size, max_epochs):
-    criterion = nn.NLLLoss(size_average=False)
-    max_accuracy = 5e-1
+    criterion = nn.BCELoss()
+    max_accuracy = 84e-2
     for epoch in range(max_epochs):
         
         print('Epoch:', epoch)
@@ -21,22 +20,31 @@ def train_model(model, optimizer, data, batch_size, max_epochs):
         total_loss = 0
         for batch, targets, lengths, raw_data in data.get_data_loader(batch_size=batch_size):
             batch, targets, lengths = data.sort_batch(batch, targets, lengths)
+
             model.zero_grad()
-            pred, loss = forward_pass(model, criterion, batch, targets, lengths)
+
+            pred = model(torch.autograd.Variable(batch), lengths.cpu().numpy())
+            
+            
+            predictions = torch.max(pred, 1)[0].float()
+
+            loss = criterion(predictions, torch.autograd.Variable(targets.float()))
             loss.backward()
             optimizer.step()
-            
+     
             pred_idx = torch.max(pred, 1)[1]
+           
             y_true += list(targets.int())
             y_pred += list(pred_idx.data.int())
+            #print(y_pred)
             total_loss += loss
         acc = accuracy_score(y_true, y_pred)
         if acc > max_accuracy:
             max_accuracy = acc
             print('new model saved with epoch accuracy {}'.format(max_accuracy))
-            torch.save(model.state_dict(), '/content/hindi_classifier.pth')
+            torch.save(model.state_dict(), 'hindi_classifier.pth')
         else:
-            print('Epoch accuracy'.format(acc))
+            print('Epoch accuracy {}'.format(acc))
         """val_loss, val_acc = evaluate_validation_set(model, dev, x_to_ix, y_to_ix, criterion)
         print("Train loss: {} - acc: {} \nValidation loss: {} - acc: {}".format(total_loss.data.float()/len(train), acc,
                                                                                 val_loss, val_acc))"""
