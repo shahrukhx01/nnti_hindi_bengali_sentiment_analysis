@@ -1,8 +1,8 @@
 file_paths = \
 {
-'data_file': '/Users/shahrukh/Desktop/NNTI-WS2021-NLP-Project-main/data/hindi_hatespeech.tsv',\
-'stpwds_file':'/Users/shahrukh/Desktop/NNTI-WS2021-NLP-Project-main/data/stopwords-hi.txt',\
-'embeddings_path':'/Users/shahrukh/Desktop/NNTI-WS2021-NLP-Project-main/src/artefacts/embedding_weights_all_sample.pickle'
+'data_file': '/content/data/hindi_hatespeech.tsv',\
+'stpwds_file':'/content/data/stopwords-hi.txt',\
+'embeddings_path':'/content/artefacts/embedding_weights_all_sample.pickle'
 }
 
 batch_size = 32

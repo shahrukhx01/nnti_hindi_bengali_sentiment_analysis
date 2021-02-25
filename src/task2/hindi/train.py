@@ -12,7 +12,9 @@ def forward_pass(model, criterion, batch, targets, lengths):
 
 def train_model(model, optimizer, data, batch_size, max_epochs):
     criterion = nn.NLLLoss(size_average=False)
+    max_accuracy = 5e-1
     for epoch in range(max_epochs):
+        
         print('Epoch:', epoch)
         y_true = list()
         y_pred = list()
@@ -29,7 +31,12 @@ def train_model(model, optimizer, data, batch_size, max_epochs):
             y_pred += list(pred_idx.data.int())
             total_loss += loss
         acc = accuracy_score(y_true, y_pred)
-        print(acc)
+        if acc > max_accuracy:
+            max_accuracy = acc
+            print('new model saved with epoch accuracy {}'.format(max_accuracy))
+            torch.save(model.state_dict(), '/content/hindi_classifier.pth')
+        else:
+            print('Epoch accuracy'.format(acc))
         """val_loss, val_acc = evaluate_validation_set(model, dev, x_to_ix, y_to_ix, criterion)
         print("Train loss: {} - acc: {} \nValidation loss: {} - acc: {}".format(total_loss.data.float()/len(train), acc,
                                                                                 val_loss, val_acc))"""
