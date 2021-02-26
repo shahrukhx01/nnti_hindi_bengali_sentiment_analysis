@@ -1,8 +1,10 @@
 import pandas as pd
+import numpy as np
 from preprocess import Preprocess
 import logging
 import torch
 from torch.utils.data import DataLoader
+from torch.utils.data.sampler import SubsetRandomSampler
 from hasoc_dataset import HASOCDataset
 logging.basicConfig(level=logging.INFO)
 
@@ -59,10 +61,26 @@ class HASOCData:
 
     def get_data_loader(self, batch_size = 8):
         padded_sequence_tensor, target_tensor, length_tensor, raw_data = self.data2tensors()
-        hasoc_dataset = HASOCDataset(padded_sequence_tensor, target_tensor, length_tensor, raw_data)
-        hasoc_dataloader = DataLoader(hasoc_dataset, batch_size=batch_size)
-
+        self.hasoc_dataset = HASOCDataset(padded_sequence_tensor, target_tensor, length_tensor, raw_data)
+        
+        train_sampler, test_sampler = self.train_test_split()
+        hasoc_dataloader = {'train_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size, 
+                                           sampler=train_sampler),
+                            'validation_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size,
+                                            sampler=test_sampler)}
         return hasoc_dataloader
+
+    def train_test_split(self, test_size= 0.2, shuffle_dataset= True, random_seed=42):
+        ## creating data indices for training and validation splits:
+        dataset_size = len(self.hasoc_dataset)
+        indices = list(range(dataset_size))
+        split = int(np.floor(test_size * dataset_size))
+        if shuffle_dataset :
+            np.random.seed(random_seed)
+            np.random.shuffle(indices)
+        train_indices, test_indices = indices[split:], indices[:split]
+        ## creating pytorch data samplers 
+        return SubsetRandomSampler(train_indices), SubsetRandomSampler(test_indices)
 
     def sort_batch(self, batch, targets, lengths):
         sequence_lengths, perm_idx = lengths.sort(0, descending=True)

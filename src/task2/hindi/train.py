@@ -11,14 +11,15 @@ def forward_pass(model, criterion, batch, targets, lengths):
 
 def train_model(model, optimizer, data, batch_size, max_epochs):
     criterion = nn.BCELoss()
-    max_accuracy = 84e-2
+    max_accuracy = 0.6
     for epoch in range(max_epochs):
         
         print('Epoch:', epoch)
         y_true = list()
         y_pred = list()
         total_loss = 0
-        for batch, targets, lengths, raw_data in data.get_data_loader(batch_size=batch_size):
+        hasoc_dataloader = data.get_data_loader(batch_size=batch_size)
+        for batch, targets, lengths, raw_data in hasoc_dataloader['train_loader']:
             batch, targets, lengths = data.sort_batch(batch, targets, lengths)
 
             model.zero_grad()
@@ -36,7 +37,6 @@ def train_model(model, optimizer, data, batch_size, max_epochs):
            
             y_true += list(targets.int())
             y_pred += list(pred_idx.data.int())
-            #print(y_pred)
             total_loss += loss
         acc = accuracy_score(y_true, y_pred)
         if acc > max_accuracy:

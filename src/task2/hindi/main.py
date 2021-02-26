@@ -13,11 +13,11 @@ def main():
         embedding_weights = pickle.load(f)
     print('embed',embedding_weights.T.shape, 'expect', (len(data.vocab), 300))
     model = HindiLSTMClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], vocab_size=len(data.vocab), \
-                                hidden_size=32, embedding_size=300, weights=torch.FloatTensor(embedding_weights.T),\
-                                lstm_layers=2)
-    model.load_state_dict(torch.load('hindi_classifier.pth'))
+                                hidden_size=64, embedding_size=300, weights=torch.FloatTensor(embedding_weights.T),\
+                                lstm_layers=1)
+    #model.load_state_dict(torch.load('hindi_classifier.pth'))
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
-    train_model(model, optimizer, data, config_dict['batch_size'], max_epochs=5)
+    train_model(model, optimizer, data, config_dict['batch_size'], max_epochs=20)
 
 
 
