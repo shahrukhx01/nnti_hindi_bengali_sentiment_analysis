@@ -66,7 +66,7 @@ class HASOCData:
         train_sampler, test_sampler = self.train_test_split()
         hasoc_dataloader = {'train_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size, 
                                            sampler=train_sampler),
-                            'validation_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size,
+                            'test_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size,
                                             sampler=test_sampler)}
         return hasoc_dataloader
 
