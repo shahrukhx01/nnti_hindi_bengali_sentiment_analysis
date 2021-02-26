@@ -44,10 +44,7 @@ class HindiLSTMClassifier(nn.Module):
 		self.hidden = self.init_hidden(batch.size(-1))
 
 		embeddings = self.word_embeddings(batch) # embedded input of shape = (batch_size, num_sequences,  embedding_size)
-		#print(embeddings.shape, lengths.shape)
 		packed_input = pack_padded_sequence(embeddings, lengths)
-		#input = input.permute(1, 0, 2) # input.size() = (num_sequences, batch_size, embedding_size)
-		# self.hidden = (initial_hidden_state, initial_context)
 		output, (final_hidden_state, final_cell_state) = self.lstm(packed_input, self.hidden)
 		#final_output = self.out(final_hidden_state[-1])
 		#output = self.dropout_layer(final_hidden_state[-1])
