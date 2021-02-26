@@ -11,7 +11,7 @@ def forward_pass(model, criterion, batch, targets, lengths):
 
 def train_model(model, optimizer, data, batch_size, max_epochs, model_name):
     criterion = nn.BCELoss()
-    max_accuracy = 0.6
+    max_accuracy = 6e-1
     for epoch in range(max_epochs):
         
         print('Epoch:', epoch)
@@ -37,13 +37,15 @@ def train_model(model, optimizer, data, batch_size, max_epochs, model_name):
             y_pred += list(pred_idx.data.int())
             total_loss += loss
         acc = accuracy_score(y_true, y_pred)
-        """  if acc > max_accuracy:
-            max_accuracy = acc
+        test_loss, test_acc = evaluate_validation_set(model, data, hasoc_dataloader, criterion)
+
+        if test_acc > max_accuracy:
+            max_accuracy = test_acc
             print('new model saved with epoch accuracy {}'.format(max_accuracy))
             torch.save(model.state_dict(), '{}.pth'.format(model_name))
         else:
-            print('Epoch accuracy {}'.format(acc))"""
-        test_loss, test_acc = evaluate_validation_set(model, data, hasoc_dataloader, criterion)
+            print('Epoch accuracy {}'.format(acc))
+        
         print("Train loss: {} - acc: {} \Test loss: {} - acc: {}".format(torch.mean(total_loss.data.float()), acc,
                                                                                 test_loss, test_acc))
     return model
