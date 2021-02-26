@@ -7,10 +7,11 @@ file_paths = \
 
 ## hyper params
 
-batch_size = 32
+batch_size = 128
 num_classes = 2
-hidden_size = 32
-lstm_layers = 1
+hidden_size = 64
+embedding_size = 300
+lstm_layers = 2
 epochs = 25
 
 ## configuration dictionary
@@ -21,5 +22,6 @@ config_dict = {
     'lstm_layers': lstm_layers,
     'hidden_size': hidden_size,
     'epochs': epochs,
+    'embedding_size': embedding_size,
     'model_name': 'hindi_classifier_h{}_l{}'.format(hidden_size, lstm_layers)
     }

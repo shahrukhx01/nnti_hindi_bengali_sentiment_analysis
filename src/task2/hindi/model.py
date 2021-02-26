@@ -47,8 +47,8 @@ class HindiLSTMClassifier(nn.Module):
 		packed_input = pack_padded_sequence(embeddings, lengths)
 		output, (final_hidden_state, final_cell_state) = self.lstm(packed_input, self.hidden)
 		#final_output = self.out(final_hidden_state[-1])
-		#output = self.dropout_layer(final_hidden_state[-1])
-		
-		final_output = self.sigmoid(self.out(final_hidden_state[-1])) # final_hidden_state.size() = (1, batch_size, hidden_size) & final_output.size() = (batch_size, output_size)
+		output = self.dropout_layer(final_hidden_state[-1])
+		final_output = self.sigmoid(self.out(output))
+		#final_output = self.sigmoid(self.out(final_hidden_state[-1])) # final_hidden_state.size() = (1, batch_size, hidden_size) & final_output.size() = (batch_size, output_size)
 		
 		return final_output
