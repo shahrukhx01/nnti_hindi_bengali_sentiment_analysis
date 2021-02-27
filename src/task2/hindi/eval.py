@@ -2,6 +2,7 @@ import torch
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import logging
 logging.basicConfig(level=logging.INFO)
+torch.manual_seed(0)
 
 def evaluate_test_set(model, data, data_loader, device):
     model.eval()

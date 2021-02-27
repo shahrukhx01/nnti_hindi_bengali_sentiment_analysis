@@ -6,6 +6,7 @@ import torch
 import pickle
 from config import config_dict
 from torch import nn
+torch.manual_seed(0)
 
 def main():
     data = HASOCData(config_dict['file_paths'])
@@ -32,6 +33,7 @@ def main():
     #train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
 
     ## loading the best model saved during training from disk
+    print(config_dict['model_name'])
     model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device('cpu')))
 
     ## evaluate model on test set
