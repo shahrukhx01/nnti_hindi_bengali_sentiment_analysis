@@ -1,5 +1,9 @@
 import torch
 
+"""
+For centrally managing all hyper parameters, file paths and config parameters
+"""
+
 file_paths = \
 {
 'data_file': 'data/hindi_hatespeech.tsv',\
