@@ -23,7 +23,7 @@ class HindiLSTMClassifier(nn.Module):
 		# initializing the look-up table.
 		self.word_embeddings = nn.Embedding(vocab_size, embedding_size)
 		# assigning the look-up table to the pre-trained hindi word embeddings trained in task1.
-		self.word_embeddings.weight = nn.Parameter(weights, requires_grad=False) 
+		self.word_embeddings.weight = nn.Parameter(weights.to(self.device), requires_grad=False) 
 		self.lstm = nn.LSTM(embedding_size, hidden_size, num_layers=lstm_layers)
 		self.out = nn.Linear(hidden_size, output_size)
 		self.sigmoid = nn.Sigmoid()
