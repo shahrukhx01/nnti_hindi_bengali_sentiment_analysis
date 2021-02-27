@@ -6,7 +6,7 @@ import torch
 import pickle
 from config import config_dict
 from torch import nn
-torch.manual_seed(0)
+
 
 def main():
     data = HASOCData(config_dict['file_paths'])

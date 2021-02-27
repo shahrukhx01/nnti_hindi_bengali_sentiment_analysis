@@ -6,7 +6,6 @@ import torch
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
 from hasoc_dataset import HASOCDataset
-torch.manual_seed(0)
 logging.basicConfig(level=logging.INFO)
 
 """

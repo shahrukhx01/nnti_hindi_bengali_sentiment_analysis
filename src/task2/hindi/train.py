@@ -2,7 +2,7 @@ from model import HindiLSTMClassifier
 import torch
 from torch import nn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
-torch.manual_seed(0)
+
 
 
 def train_model(model, optimizer, hasoc_dataloader, data, max_epochs, config_dict):
