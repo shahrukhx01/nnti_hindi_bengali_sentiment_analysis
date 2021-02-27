@@ -11,7 +11,7 @@ file_paths = \
 'embeddings_path':'artefacts/embedding_weights_all_sample_window_2.pickle'
 }
 
-## hyper parameters
+## hyper parameters for neural network
 
 batch_size = 128
 num_classes = 2
