@@ -33,8 +33,8 @@ class HindiLSTMClassifier(nn.Module):
 		"""
         add docs here....
         """
-		return(Variable(torch.randn(self.lstm_layers, batch_size, self.hidden_size).to(self.device)),
-						Variable(torch.randn(self.lstm_layers, batch_size, self.hidden_size)).to(self.device))
+		return(Variable(torch.zeros(self.lstm_layers, batch_size, self.hidden_size).to(self.device)),
+						Variable(torch.zeros(self.lstm_layers, batch_size, self.hidden_size)).to(self.device))
 
 
 		

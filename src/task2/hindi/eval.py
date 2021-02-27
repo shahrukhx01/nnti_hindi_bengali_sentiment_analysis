@@ -4,6 +4,7 @@ import logging
 logging.basicConfig(level=logging.INFO)
 
 def evaluate_test_set(model, data, data_loader, device):
+    model.eval()
     logging.info('Evaluating accuracy on test set')
 
     target_names = ['negative sentiment', 'positive sentiment']

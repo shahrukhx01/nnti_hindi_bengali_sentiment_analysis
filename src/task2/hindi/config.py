@@ -9,12 +9,12 @@ file_paths = \
 
 ## hyper params
 
-batch_size = 128
+batch_size = 32
 num_classes = 2
-hidden_size = 128
+hidden_size = 32
 embedding_size = 300
 lstm_layers = 1
-epochs = 25
+epochs = 30
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ## configuration dictionary
