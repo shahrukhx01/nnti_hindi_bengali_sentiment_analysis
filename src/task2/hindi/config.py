@@ -1,3 +1,5 @@
+import torch
+
 file_paths = \
 {
 'data_file': 'data/hindi_hatespeech.tsv',\
@@ -9,9 +11,9 @@ file_paths = \
 
 batch_size = 128
 num_classes = 2
-hidden_size = 64
+hidden_size = 128
 embedding_size = 300
-lstm_layers = 2
+lstm_layers = 1
 epochs = 25
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -24,6 +26,6 @@ config_dict = {
     'hidden_size': hidden_size,
     'epochs': epochs,
     'embedding_size': embedding_size,
-    'model_name': 'hindi_classifier_h{}_l{}'.format(hidden_size, lstm_layers),
+    'model_name': 'artefacts/hindi_classifier_h{}_l{}'.format(hidden_size, lstm_layers),
     'device': device
     }
