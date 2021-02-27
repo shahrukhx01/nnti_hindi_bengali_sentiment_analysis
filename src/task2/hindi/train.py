@@ -4,10 +4,10 @@ from torch import nn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
 
-def train_model(model, optimizer, hasoc_dataloader, batch_size, max_epochs, config_dict):
+def train_model(model, optimizer, hasoc_dataloader, data, max_epochs, config_dict):
     device = config_dict['device']
     criterion = nn.BCELoss()
-    max_accuracy = 6e-1
+    max_accuracy = 7e-1
     for epoch in range(max_epochs):
         
         print('Epoch:', epoch)
@@ -36,7 +36,7 @@ def train_model(model, optimizer, hasoc_dataloader, batch_size, max_epochs, conf
         
 
         if acc > max_accuracy:
-            max_accuracy = test_acc
+            max_accuracy = acc
             print('new model saved with epoch accuracy {}'.format(max_accuracy))
             torch.save(model.state_dict(), '{}.pth'.format(config_dict['model_name']))
         else:
