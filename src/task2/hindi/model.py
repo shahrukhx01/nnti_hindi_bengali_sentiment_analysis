@@ -6,7 +6,7 @@ from torch.nn import functional as F
 from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 
 class HindiLSTMClassifier(nn.Module):
-	def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_size, weights, lstm_layers):
+	def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_size, weights, lstm_layers, device):
 		super(HindiLSTMClassifier, self).__init__()
 		"""
         add docs here....
@@ -18,6 +18,7 @@ class HindiLSTMClassifier(nn.Module):
 		self.vocab_size = vocab_size
 		self.embedding_size = embedding_size
 		self.lstm_layers = lstm_layers
+		self.device = device
 		
 		# initializing the look-up table.
 		self.word_embeddings = nn.Embedding(vocab_size, embedding_size)
@@ -32,8 +33,8 @@ class HindiLSTMClassifier(nn.Module):
 		"""
         add docs here....
         """
-		return(Variable(torch.randn(self.lstm_layers, batch_size, self.hidden_size)),
-						Variable(torch.randn(self.lstm_layers, batch_size, self.hidden_size)))
+		return(Variable(torch.randn(self.lstm_layers, batch_size, self.hidden_size).to(self.device)),
+						Variable(torch.randn(self.lstm_layers, batch_size, self.hidden_size)).to(self.device))
 
 
 		

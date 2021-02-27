@@ -5,11 +5,7 @@ import pickle
 from torch import nn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 
-def forward_pass(model, criterion, batch, targets, lengths):
-   
-    return pred, loss
-
-def train_model(model, optimizer, data, batch_size, max_epochs, model_name):
+def train_model(model, optimizer, data, batch_size, max_epochs, config_dict):
     criterion = nn.BCELoss()
     max_accuracy = 6e-1
     for epoch in range(max_epochs):
@@ -24,7 +20,7 @@ def train_model(model, optimizer, data, batch_size, max_epochs, model_name):
 
             model.zero_grad()
 
-            pred = model(torch.autograd.Variable(batch), lengths.cpu().numpy())            
+            pred = model(torch.autograd.Variable(batch).to(config_dict['device']), lengths.cpu().numpy())            
             predictions = torch.max(pred, 1)[0].float()
             loss = criterion(predictions, torch.autograd.Variable(targets.float()))
 
@@ -42,7 +38,7 @@ def train_model(model, optimizer, data, batch_size, max_epochs, model_name):
         if test_acc > max_accuracy:
             max_accuracy = test_acc
             print('new model saved with epoch accuracy {}'.format(max_accuracy))
-            torch.save(model.state_dict(), '{}.pth'.format(model_name))
+            torch.save(model.state_dict(), '{}.pth'.format(config_dict['model_name']))
         else:
             print('Epoch accuracy {}'.format(acc))
         

@@ -13,6 +13,7 @@ hidden_size = 64
 embedding_size = 300
 lstm_layers = 2
 epochs = 25
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ## configuration dictionary
 config_dict = {
@@ -23,5 +24,6 @@ config_dict = {
     'hidden_size': hidden_size,
     'epochs': epochs,
     'embedding_size': embedding_size,
-    'model_name': 'hindi_classifier_h{}_l{}'.format(hidden_size, lstm_layers)
+    'model_name': 'hindi_classifier_h{}_l{}'.format(hidden_size, lstm_layers),
+    'device': device
     }
