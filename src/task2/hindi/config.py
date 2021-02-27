@@ -2,7 +2,7 @@ file_paths = \
 {
 'data_file': 'data/hindi_hatespeech.tsv',\
 'stpwds_file':'data/stopwords-hi.txt',\
-'embeddings_path':'artefacts/embedding_weights_all_sample.pickle'
+'embeddings_path':'artefacts/embedding_weights_all_sample_window_2.pickle'
 }
 
 ## hyper params
