@@ -5,13 +5,13 @@ import logging
 import torch
 from torch.utils.data import DataLoader
 from torch.utils.data.sampler import SubsetRandomSampler
-from hasoc_dataset import HASOCDataset
+from bengali_dataset import BengaliDataset
 logging.basicConfig(level=logging.INFO)
 
 """
-For loading HASOC data loading and preprocessing
+For loading Bengali data loading and preprocessing
 """
-class HASOCData:
+class BengaliData:
     def __init__(self, file_path):
         """
         Loads data into memory and create vocabulary from text field.
@@ -24,7 +24,7 @@ class HASOCData:
         Reads data set file from disk to memory using pandas
         """
         logging.info('loading and preprocessing data...')
-        self.data = pd.read_csv(file_paths['data_file'], sep='\t') ## reading data file
+        self.data = pd.read_csv(file_paths['data_file']) ## reading data file
         self.data = Preprocess(file_paths['stpwds_file']).perform_preprocessing(self.data) ## performing text preprocessing
         logging.info('reading and preprocessing data completed...')
     
@@ -34,6 +34,7 @@ class HASOCData:
         """
         logging.info('creating vocabulary...')
         self.vocab = list(self.data.clean_text.str.split(expand=True).stack().value_counts().keys())
+        print(len(self.vocab))
         self.word2index = {word:index for index,word in enumerate(self.vocab)} ## map each word to index
         self.index2word = {index:word for index,word in enumerate(self.vocab)} ## map each index to word
         logging.info('creating vocabulary completed...')
@@ -42,7 +43,8 @@ class HASOCData:
         """
         Maps categorical string labels to {0, 1}
         """
-        self.data['labels'] = self.data.task_1.map({'HOF': 1, 'NOT': 0})
+        self.data.rename(columns={"hate": "labels"}, inplace=True) ## rename target column
+        
 
     def data2tensors(self):
         """
@@ -63,7 +65,7 @@ class HASOCData:
             vectorized_sequences.append(vectorized_sequence) ## adding sequence vectors to train matrix  
             sequence_lengths.append(sequence_length) 
             targets.append(self.data.labels.values[index]) ## fetching label for this example
-         
+        
         ## padding zeros at the end of tensor till max length tensor
         padded_sequence_tensor = self.pad_sequences(vectorized_sequences, torch.LongTensor(sequence_lengths))
         length_tensor = torch.LongTensor(sequence_lengths) ## casting to long 
@@ -74,7 +76,7 @@ class HASOCData:
 
     def get_data_loader(self, batch_size = 8):
         padded_sequence_tensor, target_tensor, length_tensor, raw_data = self.data2tensors()
-        self.hasoc_dataset = HASOCDataset(padded_sequence_tensor, target_tensor, length_tensor, raw_data)
+        self.hasoc_dataset = BengaliDataset(padded_sequence_tensor, target_tensor, length_tensor, raw_data)
         
         train_sampler, test_sampler = self.train_test_split()
         ## prepare dictionary for train and test PyTorch based dataloaders
@@ -120,8 +122,8 @@ class HASOCData:
        Pads zeros at the end of each sequence in data tensor till max 
        length of sequence in that batch
        """
-        padded_sequence_tensor = torch.zeros((len(vectorized_sequences), sequence_lengths.max())).long() ## init zeros tensor
-        for idx, (seq, seqlen) in enumerate(zip(vectorized_sequences, sequence_lengths)): ## iterate over each sequence
-            padded_sequence_tensor[idx, :seqlen] = torch.LongTensor(seq) ## each sequence get padded by zeros until max length in that batch
-        return padded_sequence_tensor ## returns padded tensor
+       padded_sequence_tensor = torch.zeros((len(vectorized_sequences), sequence_lengths.max())).long() ## init zeros tensor
+       for idx, (seq, seqlen) in enumerate(zip(vectorized_sequences, sequence_lengths)): ## iterate over each sequence
+           padded_sequence_tensor[idx, :seqlen] = torch.LongTensor(seq) ## each sequence get padded by zeros until max length in that batch
+       return padded_sequence_tensor ## returns padded tensor
     

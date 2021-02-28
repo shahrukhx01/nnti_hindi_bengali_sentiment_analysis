@@ -39,8 +39,8 @@ class Preprocess:
         """
         return re.sub(self.USERNAME_PATTERN, '', text)
     
-    def perform_preprocessing(self, data):       
-        data['clean_text'] = data.text.apply(lambda text: text.lower()) ## normalizing text to lower case
+    def perform_preprocessing(self, data):      
+        data['clean_text'] = data.sentence.apply(lambda text: text.lower()) ## normalizing text to lower case
         data['clean_text'] = data.clean_text.apply(self.remove_usernames)## removing usernames
         data['clean_text'] = data.clean_text.apply(self.remove_punctuations)## removing punctuations
         data['clean_text'] = data.clean_text.apply(self.remove_stopwords)## removing stopwords

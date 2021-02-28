@@ -9,9 +9,9 @@ from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
 Wrapper class using Pytorch nn.Module to create the architecture for our 
 binary classification model
 """
-class HindiLSTMClassifier(nn.Module):
+class BengaliLSTMClassifier(nn.Module):
 	def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_size, weights, lstm_layers, device):
-		super(HindiLSTMClassifier, self).__init__()
+		super(BengaliLSTMClassifier, self).__init__()
 		"""
         Initializes model layers and loads pre-trained embeddings from task 1
         """
@@ -27,7 +27,7 @@ class HindiLSTMClassifier(nn.Module):
 		## model layers
 		# initializing the look-up table.
 		self.word_embeddings = nn.Embedding(vocab_size, embedding_size)
-		# assigning the look-up table to the pre-trained hindi word embeddings trained in task1.
+		# assigning the look-up table to the pre-trained bengali word embeddings trained in prior to this.
 		self.word_embeddings.weight = nn.Parameter(weights.to(self.device), requires_grad=False) 
 
 

@@ -1,4 +1,4 @@
-from model import HindiLSTMClassifier
+from model import BengaliLSTMClassifier
 import torch
 from torch import nn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score

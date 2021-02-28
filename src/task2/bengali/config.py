@@ -6,18 +6,18 @@ For centrally managing all hyper parameters, file paths and config parameters
 
 file_paths = \
 {
-'data_file': 'data/bengali_hatespeech_subset.tsv',\
+'data_file': 'data/bengali_hatespeech_subset.csv',\
 'stpwds_file':'data/stopwords-bn.txt',\
 'embeddings_path':'artefacts/bengali_embedding_weights_all_window_2.pickle'
 }
 
 ## hyper parameters for neural network
 
-batch_size = 32
+batch_size = 64
 num_classes = 2
-hidden_size = 32
+hidden_size = 64
 embedding_size = 300
-lstm_layers = 1
+lstm_layers = 2
 epochs = 30
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
