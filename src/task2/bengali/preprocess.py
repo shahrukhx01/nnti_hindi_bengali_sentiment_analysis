@@ -17,8 +17,8 @@ class Preprocess:
         """
         Loads stopwords from file
         """
-        stopwords_hindi_file = open(self.STOPWORDS_PATH, 'r') ## open file
-        self.stopwords_hindi = [line.replace('\n','') for line in stopwords_hindi_file.readlines()] ## add keywords to list for later use
+        stopwords_bengali_file = open(self.STOPWORDS_PATH, 'r') ## open file
+        self.stopwords_bengali = [line.replace('\n','') for line in stopwords_bengali_file.readlines()] ## add keywords to list for later use
 
 
     def remove_punctuations(self, text):
@@ -31,7 +31,7 @@ class Preprocess:
         """
         Removes stopwords from text field
         """
-        return " ".join([word for word in text.split() if word not in self.stopwords_hindi])
+        return " ".join([word for word in text.split() if word not in self.stopwords_bengali])
     
     def remove_usernames(self, text):  
         """

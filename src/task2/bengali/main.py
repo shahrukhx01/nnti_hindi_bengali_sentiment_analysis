@@ -17,29 +17,28 @@ def main():
     assert embedding_weights.T.shape == (len(data.vocab), config_dict['embedding_size']), "Pre-trained embeddings size not equal to size of embedding layer"
 
     ## create model instance  with configurations coming from config file
-    model = BengaliLSTMClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
+    model = BengaliLSTMClassifier(pretrained_state_dict_path= config_dict['file_paths']['pretrained_path'], batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
-                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device']).to(config_dict['device'],
-                                pretrained_state_dict_path= config_dict['pretrained_path'])
+                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device']).to(config_dict['device'])
 
     ## load pretrained weights
     model.load_pretrained_layers()
 
     ## get dataloaders for train and test set
-    hasoc_dataloader = data.get_data_loader(batch_size=config_dict['batch_size'])
+    bengali_dataloader = data.get_data_loader(batch_size=config_dict['batch_size'])
 
     ## filtering out embedding weights since they won't be optimized
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
 
     ## training the model on train set
-    train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
+    #train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
 
     ## loading the best model saved during training from disk
-    model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device('cpu')))
+    model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device(config_dict['device'])))
 
     ## evaluate model on test set
-    evaluate_test_set(model, data, hasoc_dataloader, device=config_dict['device'])
+    evaluate_test_set(model, data, bengali_dataloader, device=config_dict['device'])
 
 if __name__ == "__main__":
     main()

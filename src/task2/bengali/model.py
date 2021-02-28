@@ -50,19 +50,25 @@ class BengaliLSTMClassifier(nn.Module):
 		"""
         Loads pretrained LSTM and FC layers from hindi classifier
         """
+		
+		state_dict = None
 		try:
-			state_dict = torch.load(self.pretrained) ## load pretrained weights
+			## load pretrained weights
+			state_dict = torch.load(self.pretrained, map_location=torch.device(self.device)) 
 		except:
 			print("No pretrained model exists for current architecture!")
+			return
 
 		print('Loading pretrained weights...')
+		
+		## iterating over pretrained state dict and copying weights to own state dict except embeddings
+		for name, param in state_dict.items():
+			if name not in self.state_dict() or name == 'word_embeddings.weight':
+				print('Skipping the following layer(s): {}'.format(name))
+				continue
+			self.state_dict()[name].copy_(param.data)
+		
 
-		with torch.no_grad():
-			self.lstm.weight.copy_(state_dict['lstm.weight'])
-			self.lstm.bias.copy_(state_dict['lstm.bias'])
-
-			self.out.weight.copy_(state_dict['out.weight'])
-			self.out.bias.copy_(state_dict['out.bias'])
 
 
 
