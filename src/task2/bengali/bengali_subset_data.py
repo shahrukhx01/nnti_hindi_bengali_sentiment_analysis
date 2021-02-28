@@ -1,7 +1,7 @@
 import pandas as pd
 
 """
-This script samples the Bengali hatespeech data roughly equivalent to the vocabulary size of the Hindi hatespeech dataset.
+This script samples the Bengali hatespeech data roughly equivalent to the size of the Hindi hatespeech dataset.
 """
 
 def subset_data(n_positive, n_negative, df, split_col, random_seed=42):
@@ -15,14 +15,14 @@ def subset_data(n_positive, n_negative, df, split_col, random_seed=42):
     return pd.concat(frames)
 
 def save_data(df, path):
-    df.to_csv(path) ## writing to file
+    df.to_csv(path, index=False) ## writing to file
     print('data saved to file')
 
 def main():
     data = pd.read_csv('data/bengali_hatespeech.csv')
 
     ## sampling same distribution of labels as was given in hindi dataset
-    bengali_subset_df = subset_data(n_positive=3300, n_negative=3300, df=data, split_col='hate')
+    bengali_subset_df = subset_data(n_positive=2500, n_negative=2500, df=data, split_col='hate')
     save_data(df=bengali_subset_df, path='data/bengali_hatespeech_subset.csv')
 
 
