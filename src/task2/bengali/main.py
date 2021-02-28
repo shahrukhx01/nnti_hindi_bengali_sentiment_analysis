@@ -20,9 +20,11 @@ def main():
     model = BengaliLSTMClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
-                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device']).to(config_dict['device'])
+                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device']).to(config_dict['device'],
+                                pretrained_state_dict_path= config_dict['pretrained_path'])
 
-    
+    ## load pretrained weights
+    model.load_pretrained_layers()
 
     ## get dataloaders for train and test set
     hasoc_dataloader = data.get_data_loader(batch_size=config_dict['batch_size'])

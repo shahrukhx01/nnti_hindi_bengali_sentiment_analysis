@@ -10,12 +10,14 @@ Wrapper class using Pytorch nn.Module to create the architecture for our
 binary classification model
 """
 class BengaliLSTMClassifier(nn.Module):
-	def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_size, weights, lstm_layers, device):
+	def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_size, weights, 
+												lstm_layers, device, pretrained_state_dict_path):
 		super(BengaliLSTMClassifier, self).__init__()
 		"""
         Initializes model layers and loads pre-trained embeddings from task 1
         """
 		## model hyper parameters
+		self.pretrained = pretrained_state_dict_path
 		self.batch_size = batch_size
 		self.output_size = output_size
 		self.hidden_size = hidden_size
@@ -43,6 +45,25 @@ class BengaliLSTMClassifier(nn.Module):
         """
 		return(Variable(torch.zeros(self.lstm_layers, batch_size, self.hidden_size).to(self.device)),
 						Variable(torch.zeros(self.lstm_layers, batch_size, self.hidden_size)).to(self.device))
+		
+	def load_pretrained_layers(self):
+		"""
+        Loads pretrained LSTM and FC layers from hindi classifier
+        """
+		try:
+			state_dict = torch.load(self.pretrained) ## load pretrained weights
+		except:
+			print("No pretrained model exists for current architecture!")
+
+		print('Loading pretrained weights...')
+
+		with torch.no_grad():
+			self.lstm.weight.copy_(state_dict['lstm.weight'])
+			self.lstm.bias.copy_(state_dict['lstm.bias'])
+
+			self.out.weight.copy_(state_dict['out.weight'])
+			self.out.bias.copy_(state_dict['out.bias'])
+
 
 
 		
