@@ -32,7 +32,7 @@ def main():
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
 
     ## training the model on train set
-    #train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
+    train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
 
     ## loading the best model saved during training from disk
     model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device(config_dict['device'])))

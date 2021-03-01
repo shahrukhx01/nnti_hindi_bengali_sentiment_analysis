@@ -14,7 +14,7 @@ def evaluate_test_set(model, data, data_loader, device):
     model.eval()
     logging.info('Evaluating accuracy on test set')
 
-    target_names = ['negative sentiment', 'positive sentiment']
+    target_names = ['non hate speech', 'hate speech']
     y_true = list()
     y_pred = list()
     total_loss = 0

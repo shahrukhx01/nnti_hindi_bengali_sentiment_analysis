@@ -17,7 +17,7 @@ batch_size = 128
 num_classes = 2
 hidden_size = 64
 embedding_size = 300
-lstm_layers = 4
+lstm_layers = 1
 epochs = 30
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 

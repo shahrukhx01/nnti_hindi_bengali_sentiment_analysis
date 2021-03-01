@@ -76,28 +76,34 @@ class HASOCData:
         padded_sequence_tensor, target_tensor, length_tensor, raw_data = self.data2tensors()
         self.hasoc_dataset = HASOCDataset(padded_sequence_tensor, target_tensor, length_tensor, raw_data)
         
-        train_sampler, test_sampler = self.train_test_split()
+        train_sampler, dev_sampler, test_sampler = self.train_dev_test_split()
         ## prepare dictionary for train and test PyTorch based dataloaders
         hasoc_dataloader = {'train_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size, 
                                            sampler=train_sampler),
                             'test_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size,
-                                            sampler=test_sampler)}
+                                            sampler=test_sampler),
+                            'dev_loader' : torch.utils.data.DataLoader(self.hasoc_dataset, batch_size=batch_size,
+                                            sampler=dev_sampler)}
         return hasoc_dataloader
 
-    def train_test_split(self, test_size= 0.2, shuffle_dataset= True, random_seed=42):
+    def train_dev_test_split(self, dev_size= 0.2, test_size= 0.2, shuffle_dataset= True, random_seed=42):
         """
         Splits the data into train and test set using the SubsetSampler provided by PyTorch.
         """
         ## creating data indices for training and validation splits:
         dataset_size = len(self.hasoc_dataset)
         indices = list(range(dataset_size))
-        split = int(np.floor(test_size * dataset_size))
+        train_test_split = int(np.floor(test_size * dataset_size))
         if shuffle_dataset :
             np.random.seed(random_seed)
             np.random.shuffle(indices) ## shuffle row indices before split
-        train_indices, test_indices = indices[split:], indices[:split]
+        train_indices, test_indices = indices[train_test_split:], indices[:train_test_split]
+        
+        train_dev_split = int(np.floor(dev_size * len(train_indices))) ## splitting train data further into train and dev
+        train_indices, dev_indices = indices[train_dev_split:], indices[:train_dev_split]
+
         ## creating pytorch data samplers 
-        return SubsetRandomSampler(train_indices), SubsetRandomSampler(test_indices)
+        return SubsetRandomSampler(train_indices), SubsetRandomSampler(dev_indices), SubsetRandomSampler(test_indices)
 
     def sort_batch(self, batch, targets, lengths):
         """
@@ -120,8 +126,7 @@ class HASOCData:
        Pads zeros at the end of each sequence in data tensor till max 
        length of sequence in that batch
        """
-        padded_sequence_tensor = torch.zeros((len(vectorized_sequences), sequence_lengths.max())).long() ## init zeros tensor
-        for idx, (seq, seqlen) in enumerate(zip(vectorized_sequences, sequence_lengths)): ## iterate over each sequence
-            padded_sequence_tensor[idx, :seqlen] = torch.LongTensor(seq) ## each sequence get padded by zeros until max length in that batch
-        return padded_sequence_tensor ## returns padded tensor
-    
+       padded_sequence_tensor = torch.zeros((len(vectorized_sequences), sequence_lengths.max())).long() ## init zeros tensor
+       for idx, (seq, seqlen) in enumerate(zip(vectorized_sequences, sequence_lengths)): ## iterate over each sequence
+           padded_sequence_tensor[idx, :seqlen] = torch.LongTensor(seq) ## each sequence get padded by zeros until max length in that batch
+       return padded_sequence_tensor ## returns padded tensor
