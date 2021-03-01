@@ -8,16 +8,16 @@ file_paths = \
 {
 'data_file': 'data/hindi_hatespeech.tsv',\
 'stpwds_file':'data/stopwords-hi.txt',\
-'embeddings_path':'artefacts/embedding_weights_all_sample_window_2.pickle'
+'embeddings_path':'artefacts/embedding_weights_window_2.pickle'
 }
 
 ## hyper parameters for neural network
 
-batch_size = 128
+batch_size = 256
 num_classes = 2
-hidden_size = 64
+hidden_size = 32
 embedding_size = 300
-lstm_layers = 1
+lstm_layers = 6
 epochs = 30
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
