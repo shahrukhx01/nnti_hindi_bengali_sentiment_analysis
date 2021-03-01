@@ -33,8 +33,7 @@ class BengaliData:
         Creates vocabulary over entire text data field.
         """
         logging.info('creating vocabulary...')
-        self.vocab = list(self.data.clean_text.str.split(expand=True).stack().value_counts().keys())
-        print(len(self.vocab))
+        self.vocab = sorted(list(self.data.clean_text.str.split(expand=True).stack().value_counts().keys()))
         self.word2index = {word:index for index,word in enumerate(self.vocab)} ## map each word to index
         self.index2word = {index:word for index,word in enumerate(self.vocab)} ## map each index to word
         logging.info('creating vocabulary completed...')
