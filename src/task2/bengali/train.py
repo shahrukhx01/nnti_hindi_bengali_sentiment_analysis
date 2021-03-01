@@ -14,7 +14,7 @@ while monitoring a metric like accuracy etc
 def train_model(model, optimizer, dataloader, data, max_epochs, config_dict):
     device = config_dict['device']
     criterion = nn.BCELoss() ## since we are doing binary classification
-    max_accuracy = 5e-1
+    max_accuracy = 1e-3
     for epoch in range(max_epochs):
         
         logging.info('Epoch: {}'.format(epoch))
