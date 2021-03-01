@@ -58,7 +58,7 @@ class BengaliLSTMClassifier(nn.Module):
 		except:
 			print("No pretrained model exists for current architecture!")
 			return
-
+			
 		print('Loading pretrained weights...')
 		
 		## iterating over pretrained state dict and copying weights to own state dict except embeddings
