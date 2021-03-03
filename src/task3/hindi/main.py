@@ -36,7 +36,8 @@ def main():
     try:
         model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device(config_dict['device'])))
         print('model loaded...')
-    except:
+    except Exception as e:
+        print(e)
         print('no prior model')
     
     ## training the model on train set
