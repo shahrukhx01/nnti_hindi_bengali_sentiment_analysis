@@ -18,10 +18,10 @@ def main():
 
     ## create model instance  with configurations coming from config file
     model = BengaliLSTMAttentionClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
-                                vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
-                                embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
-                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device'], dropout=config_dict['dropout'],
-                                bidirectional=config_dict['is_bi_lstm'], pretrained_path=config_dict['file_paths']['pretrained_path']).to(config_dict['device'])
+                            vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
+                            embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
+                            lstm_layers=config_dict['lstm_layers'], device=config_dict['device'], dropout=config_dict['dropout'],
+                            bidirectional=config_dict['is_bi_lstm'], pretrained_path=config_dict['file_paths']['pretrained_path']).to(config_dict['device'])
 
     ## load pretrained weights
     model.load_pretrained_layers()

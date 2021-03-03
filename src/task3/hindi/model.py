@@ -10,8 +10,33 @@ Wrapper class using Pytorch nn.Module to create the architecture for our
 binary classification model
 """
 
+class SelfAttention(nn.Module):
+	def __init__(self, input_size, hidden_size, output_size):
+		super(SelfAttention, self).__init__()
+		## corresponds to variable Ws1 in ICLR paper
+		self.layer1 = nn.Linear(input_size, hidden_size)
+		## corresponds to variable Ws2 in ICLR paper
+		self.layer2 = nn.Linear(hidden_size, output_size)
+
+	## the forward function would receive lstm's all hidden states as input
+	def forward(self, attention_input):
+		## expected input shape: (batch_size , seq_len, num_lstm_layers * num_directions)
+		out = self.layer1(attention_input)
+		#out shape: (batch_size, seq_len, attention_hidden_size)
+		out = torch.tanh(out)
+		#out shape: (batch_size, seq_len, attention_out)
+		out = self.layer2(out)
+		## out shape post permute: (batch_size, attention_out, seq_len)
+		out = out.permute(0, 2, 1)
+		out = F.softmax(out, dim=2) ## softmax dimenion as per the paper
+
+		return out ## out shape: (batch_size, attention_out, seq_len)
+
+
 class HindiLSTMAttentionClassifier(nn.Module):
-	def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_size, weights, lstm_layers, device, dropout, bidirectional):
+	def __init__(self, batch_size, output_size, hidden_size, vocab_size, 
+				embedding_size, weights, lstm_layers, device, dropout, 
+				bidirectional, self_attention_config, fc_hidden_size):
 		super(HindiLSTMAttentionClassifier, self).__init__()
 		"""
         Initializes model layers and loads pre-trained embeddings from task 1
@@ -25,23 +50,40 @@ class HindiLSTMAttentionClassifier(nn.Module):
 		self.lstm_layers = lstm_layers
 		self.device = device
 		self.bidirectional = bidirectional
+		self.fc_hidden_size = fc_hidden_size
+		self.lstm_directions = 2  if self.bidirectional else 1 ## decide directions based on input flag
+
 		## model layers
 		# initializing the look-up table.
 		self.word_embeddings = nn.Embedding(vocab_size, embedding_size)
 		# assigning the look-up table to the pre-trained hindi word embeddings trained in task1.
 		self.word_embeddings.weight = nn.Parameter(weights.to(self.device), requires_grad=False) 
+		
+		## adding dropout to counterbalance overfitting
 		self.dropout_layer = nn.Dropout(p=dropout)
-		self.lstm = nn.LSTM(self.embedding_size, self.lstm_hidden_size, 
-							num_layers=self.lstm_layers, bidirectional=self.bidirectional)
-		
 
-		self.W_s1 = nn.Linear(2*self.lstm_hidden_size, 350)
-		self.W_s2 = nn.Linear(350, 30)
-		self.relu = nn.ReLU()
+		## initializng lstm layer
+		self.bilstm = nn.LSTM(self.embedding_size, self.lstm_hidden_size, 
+							num_layers=self.lstm_layers, bidirectional=self.bidirectional)
+
+		## sigmoid activation for output layer as we have binary labels
 		self.sigmoid = nn.Sigmoid()
+
+		## initializing self attention layers 
+		self.self_attention = None
+		self.fc_layer = None
+	
+		## incase we are using bi-directional lstm we'd have to take care of bi-directional outputs in 
+		## subsequent layers
 		
-		self.fc_layer = nn.Linear(30*2*hidden_size, 2000)
-		self.out = nn.Linear(2000, output_size)
+		self.self_attention = SelfAttention(self.lstm_hidden_size * self.lstm_directions, 
+											self_attention_config['hidden_size'], 
+											self_attention_config['output_size'])
+		## this layer comes right after self attention computation
+		self.fc_layer = nn.Linear(self.lstm_directions * self.lstm_hidden_size * self_attention_config['output_size'], 
+								  self.fc_hidden_size)
+		## output layer
+		self.out = nn.Linear(self.fc_hidden_size, output_size)
 		
 	def init_hidden(self, batch_size):
 		"""
@@ -53,20 +95,13 @@ class HindiLSTMAttentionClassifier(nn.Module):
 			layer_size *= 2 # since we have two layers instantiated for each lstm layer of bi-lstm
 		return(Variable(torch.zeros(layer_size, batch_size, self.lstm_hidden_size).to(self.device)),
 						Variable(torch.zeros(layer_size, batch_size, self.lstm_hidden_size)).to(self.device))
-
-
-	def self_attention(self, lstm_out):
-		attn_weight_matrix = self.W_s2(torch.tanh(self.W_s1(lstm_out)))
-		attn_weight_matrix = attn_weight_matrix.permute(0, 2, 1)
-		attn_weight_matrix = F.softmax(attn_weight_matrix, dim=2)
-
-		return attn_weight_matrix
 		
 	def forward(self, batch, lengths):
 		"""
 		Performs the forward pass for each batch
         """
-		##[tuple] hidden shape ((layer_size, batch_size, self.lstm_hidden_size), (layer_size, batch_size, self.lstm_hidden_size))
+		##[tuple] hidden shape ((layer_size, batch_size, self.lstm_hidden_size), 
+		# (layer_size, batch_size, self.lstm_hidden_size))
 		self.hidden = self.init_hidden(batch.size(-1)) ## init context and hidden weights for lstm cell
 		
 		## batch shape: (num_sequences, batch_size)
@@ -75,33 +110,45 @@ class HindiLSTMAttentionClassifier(nn.Module):
 
 		## enables the model to ignore the padded elements during backpropagation
 		packed_input = pack_padded_sequence(embeddings, lengths)
-		
-		
 
+		
 		## padded_output shape : (seq_len, batch_size, num_lstm_layers * num_directions)
-		output, (final_hidden_state, final_cell_state) = self.lstm(packed_input, self.hidden)
+		output, (final_hidden_state, final_cell_state) = self.bilstm(packed_input, self.hidden)
 		padded_output, unpacked_lengths = pad_packed_sequence(output)
-	
-		#padded_out shape: (batch_size , seq_len, num_lstm_layers * num_directions)
+
+		## here padded_output refer to matrix 'H' in the ICLR paper
+		#padded_output post permute shape: (batch_size , seq_len, num_lstm_layers * num_directions)
 		padded_output = padded_output.permute(1, 0, 2)
-		attn_weight_matrix = self.self_attention(padded_output)
 
-		## concat the final forward and backward hidden state
-		## concat_hidden shape: (batch_size, hidden_size * num directions)
-		concat_hidden = None
-		if self.bidirectional:
-			concat_hidden = torch.cat((final_hidden_state[-2,:,:], final_hidden_state[-1,:,:]), dim=1)	
-		else:
-			concat_hidden = final_hidden_state[-1]
-
+		## refers to annotation matrix 'A' in ICLR paper
+		annotation_weight_matrix = self.self_attention(padded_output)	
 		
-		attention_out = hidden_matrix.view(-1, hidden_matrix.size()[1]*hidden_matrix.size()[2])
-		attention_out = self.dropout_layer(attention_out)
-		fc_out = self.fc_layer(attention_out)
-		#logits = torch.relu(fc_out)
+		"""
+		in the final step we compute output matrix 'M = AH' which has sentnece embeddings
+		here the bmm (batch matrix mul) inputs have following shapes
+		annotation_weight_matrix : (batch_size, attention_out, seq_len)
+		padded_output: (batch_size , seq_len, lstm_hidden_size * num_directions)
+		sentence_embedding shape: (batch_size , attention_out, lstm_hidden_size * num_directions)
+		"""
+		sentence_embedding = torch.bmm(annotation_weight_matrix, padded_output)
+
+		"""
+		transforming the two lstm directions with attention output in sentence embedding matrix 
+		for fully connected layer
+		sentence_embedding shape: (batch_size, lstm_directions*lstm_hidden_size*self_attention_output_size)
+		"""
+		sentence_embedding = sentence_embedding.view(-1, sentence_embedding.size()[1]*sentence_embedding.size()[2])
+
+		## to counterbalance overfitting
+		dropout_sentence_embedding = self.dropout_layer(sentence_embedding)
+		
+		## feeding dropout result to fully connected
+		fc_out = self.fc_layer(dropout_sentence_embedding)
+		
+		## finally connecting fc output to output layer
 		out = self.out(fc_out)
 
-		## passing lstm outputs to fully connected layer and then applying sigmoid activation
+		## applying sigmoid activation
 		## final_output shape: (batch_size, output_size)
 		final_output = self.sigmoid(out) ## using sigmoid since binary labels
 		

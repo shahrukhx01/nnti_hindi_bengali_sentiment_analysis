@@ -21,7 +21,8 @@ def main():
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
                                 lstm_layers=config_dict['lstm_layers'], device=config_dict['device'], dropout=config_dict['dropout'],
-                                bidirectional=config_dict['is_bi_lstm']).to(config_dict['device'])
+                                bidirectional=config_dict['is_bi_lstm'], self_attention_config=config_dict['self_attention_config'], 
+                                fc_hidden_size=config_dict['fc_hidden_size']).to(config_dict['device'])
 
     
 
