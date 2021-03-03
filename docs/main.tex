@@ -29,19 +29,19 @@
 \usepackage{microtype}      % microtypography
 \usepackage{authblk}
 \usepackage{graphicx}
+\usepackage{multirow}
 
 \title{NNTI-2021 FINAL NLP PROJECT REPORT \newline 		HINDI/BENGALI SENTIMENT ANALYSIS}
 
 
 \author{
-  Shahrukh Khan\\
-  \texttt{shkh00001@uni-saarland.de}\\
-  \textbf{matriculation number 7003144}
-  \and
-  Mahnoor Shahid\\
-  \texttt{mash00001@uni-saarland.de}\\
-  \textbf{matriculation number 7003144}
+\begin{tabular}[t]{cc} 
+  Shahrukh Khan & \hspace{4cm} Mahnoor Shahid\\
+  \texttt{shkh00001@uni-saarland.de} & \hspace{2cm} \texttt{mash00001@uni-saarland.de} \\
+  \textbf{matriculation number 7003144} & \hspace{2cm} \textbf{matriculation number 7003144}
+\end{tabular}
 }
+
 
 \begin{document}
 
@@ -51,11 +51,6 @@
 \begin{abstract}
  This part of report is abstract. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 \end{abstract}
-
-\textbf{Keywords}
-\begin{list}
-    \item -Deep Learning, Pytorch, NLP, Sentiment Analysis, Hate Speech
-\end{list}
 
 
 \section{Submission of NNTI Final Project 2021}
@@ -68,9 +63,9 @@ NLP task was selected. Bleh bleh bleh bleh. Below you can find the link to the p
 \section{Task One: Word Embeddings}
 \label{gen_inst}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+In this first task, we are provided with HASOC Hindi Sentiment Dataset and we have to create our own Word Embeddings from scratch and train a Word2Vec model which is better approach than one-hot encoding. To begin with, we have done the pre-processing of the dataset where we have removed the punctuation, usernames and stop-words[1], along with normalizing the text data to lower case. We have then obtained 20526 sorted unique words from our Hindi dataset that we have mapped with indices via 2 dictionaries: word2index (every word with an index value) and index2word (every index value with a word). We have then defined the method for one-hot-encoding as the first layer of word2vec model takes in the encoded vector and sampling probability is applied to know the probability of keeping the word in the context using the specified sub-sampling formula which is used by get\_target\_context method to generate what skip gram model requires. Afterwards, we have developed the Word2Vec model and trained the dataset onto this to get the desired Word Embeddings.
 
-\section{Influence of Hashtags and Emojis on Sentiment Analysis of the datasets: Hindi and Bengali }
+\section{Influence of Hashtags and Emojis on Sentiment Analysis of the Hindi Dataset}
 \label{headings}
 
 In general, the usage of hashtags in a sentence can benefit us in investigation under many various aspects, one of the common ones that includes Context Identification, Sentiment Analyses etc. Mostly, there is great influence of hashtags on the sentences:
@@ -82,7 +77,7 @@ In general, the usage of hashtags in a sentence can benefit us in investigation 
 
 For these certain reasons we have settled not to eliminate them. 
 
-Our dataset is consisting of tweets in the targeted languages; Hindi and Bengali, and these text sentences are provided to us, marked already with the flags: HOF and NOT [1] as shown in Table 1 so we will be using these indicators to segregate whether the hashtags belong to a negative sentence or non-negative sentence, to know how much proportion of hate speech our dataset has.
+Our dataset is consisting of tweets in the targeted languages; Hindi and Bengali, and these text sentences are provided to us, marked already with the flags: HOF and NOT [2] as shown in Table 1 so we will be using these indicators to segregate whether the hashtags belong to a negative sentence or non-negative sentence, to know how much proportion of hate speech our dataset has.
 
 \begin{table}
 
@@ -141,127 +136,84 @@ In order to extract the sentiment of the words used for hashtags, we have used T
 
 \subsection{Detecting the content of the hashtags}
 
-If the purpose of the study is based on the context of subject or the topic of the tweets, then these hashtags in the Hindi Dataset tells us much more about that. Figure 2 is an example wordcloud that represents the most used words as the hashtags in the Hindi Dataset, where blue hashtags represent the ones used in negative sentences and the grey hashtags represent the ones used in positive sentences, interestingly, from which we can spot that even though the proportion of the Negative Hashtags was one-fourth in contrast to Non-Negative hashtags, the most frequent hashtags were the negative ones and the topics on which we will have the hate-speech are the tweets mostly regarding politics and cricket matches.
+If the purpose of the study is based on the context of subject, then these hashtags in the Hindi Dataset tells us much more about that. Figure 2 is an example wordcloud that represents the most used words as the hashtags in the Hindi Dataset, where blue hashtags represent the ones used in negative sentences and the grey hashtags represent the ones used in positive sentences, interestingly, from which we can spot that even though the proportion of the Negative Hashtags was one-fourth in contrast to Non-Negative hashtags, the most frequent hashtags were the negative ones and the topics on which we will have the hate-speech are the tweets mostly regarding politics and cricket matches.
 
 \begin{figure}[b]
   \centering
-  \includegraphics[width=13cm, height=7cm]{wordcloud2.png}
+  \includegraphics[width=12cm, height=6cm]{wordcloud2.png}
 %   \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
   \caption{WordCloud indicating the most frequent hashtags in the Hindi Dataset}
 \end{figure}
 
 \subsection{Further exploration for the emojis}
+Emoticons, also referred as emojis are unicode graphical symbols, which are used to articulate and convey the sentiment in a sentence. By analyzing the sentiment of the emojis we can draw several noteworthy conclusions which might be motivating to the study of interest. 
+Hence, with the intention to obtain the emojis from the Hindi Dataset we have used regex and have specified all the Emoji Unicode Blocks in the pattern and have used the findall() method to get the list of emojis, regrettably we have just 2 emojis in the entire dataset. \textit{So, removing them and not removing them will not make any difference in this setting.  }
 
-With the intention to obtain the emojis from the Hindi Dataset we have used Regex and have specified all the Emoji Unicode Blocks in the pattern and have used the findall() method to get the list of emojis, regrettably we have just 2 emojis in the entire dataset. \textit{So, removing them and not removing them will not make any difference in this setting.  }
-
-
-
-\section{Analysis on the Word2Vec Model created in Task One}
+\section{Hyperparameters for the Word2Vec Model created in Task One}
 \label{others}
 
-By setting different values for Hyperparameters with different combinations, this was observed that for the better performance of the model's parameters should be set to Epochs=500, Window Size=1, Embedded Size=300, Batch Size=8, Learning Rate=0.05
+By setting different values for hyperparameters with different combinations, this was observed that for the better performance of the model, they should be set to Epochs = 500, Window Size = 2, Embedded Size = 300, and Learning Rate = 0.05, in our case of study.
 
 
-\subsection{Finding the better Batch Size for the model with Window Size = 1}
+\subsection{Examining the different values of window size for the model with embedded size = 300}
 
-
-
-The documentation for \verb+natbib+ may be found at
-\begin{center}
-  \url{http://mirrors.ctan.org/macros/latex/contrib/natbib/natnotes.pdf}
-\end{center}
-Of note is the command \verb+\citet+, which produces citations appropriate for
-use in inline text.  For example,
-\begin{verbatim}
-   \citet{hasselmo} investigated\dots
-\end{verbatim}
-produces
-\begin{quote}
-  Hasselmo, et al.\ (1995) investigated\dots
-\end{quote}
-
-If you wish to load the \verb+natbib+ package with options, you may add the
-following before loading the \verb+neurips_2020+ package:
-\begin{verbatim}
-   \PassOptionsToPackage{options}{natbib}
-\end{verbatim}
-
-If \verb+natbib+ clashes with another package you load, you can add the optional
-argument \verb+nonatbib+ when loading the style file:
-\begin{verbatim}
-   \usepackage[nonatbib]{neurips_2020}
-\end{verbatim}
-
-As submission is double blind, refer to your own published work in the third
-person. That is, use ``In the previous work of Jones et al.\ [4],'' not ``In our
-previous work [4].'' If you cite your other papers that are not widely available
-(e.g., a journal paper under review), use anonymous author names in the
-citation, e.g., an author of the form ``A.\ Anonymous.''
-
-\subsection{Footnotes}
-
-Footnotes should be used sparingly.  If you do require a footnote, indicate
-footnotes with a number\footnote{Sample of the first footnote.} in the
-text. Place the footnotes at the bottom of the page on which they appear.
-Precede the footnote with a horizontal rule of 2~inches (12~picas).
-
-Note that footnotes are properly typeset \emph{after} punctuation
-marks.\footnote{As in this example.}
-
-\subsection{Figures}
+Successively, executing the model using the combinations of values for the hyperparameters, as described in Table 3, the loss rate was considerably low for window size = 1 and window size = 2 and was increasing with the raise in the number of window size. Moreover, the loss rate shoots up abruptly for higher window size values when executed for more epochs. It is also evident from Figure 3 that loss for window size 2 converges faster as compare to window size 1. 
 
 \begin{figure}
   \centering
-  \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-  \caption{Sample figure caption.}
+  \includegraphics[width=13cm, height=6.7cm]{model_loss_window_sizes.png}
+%   \fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
+  \caption{Loss of model for different values of window size with fixed embedded size = 300}
 \end{figure}
 
-All artwork must be neat, clean, and legible. Lines should be dark enough for
-purposes of reproduction. The figure number and caption always appear after the
-figure. Place one line space before the figure caption and one line space after
-the figure. The figure caption should be lower case (except for first word and
-proper nouns); figures are numbered consecutively.
+\subsection{Examining the different values of learning rate for the model with embedded size = 300 and window size = 2}
 
-You may use color figures.  However, it is best for the figure captions and the
-paper body to be legible if the paper is printed in either black/white or in
-color.
+From table 3, we can note that by decreasing the learning rate to 0.01 or increasing the learning rate to 0.1 did not provide us any significantly better result.
 
-\subsection{Tables}
-
-All tables must be centered, neat, clean and legible.  The table number and
-title always appear before the table.  See Table~\ref{sample-table}.
-
-Place one line space before the table title, one line space after the
-table title, and one line space after the table. The table title must
-be lower case (except for first word and proper nouns); tables are
-numbered consecutively.
-
-Note that publication-quality tables \emph{do not contain vertical rules.} We
-strongly suggest the use of the \verb+booktabs+ package, which allows for
-typesetting high-quality, professional tables:
+\begin{table}[b]
 \begin{center}
-  \url{https://www.ctan.org/pkg/booktabs}
-\end{center}
-This package was used to typeset Table~\ref{sample-table}.
-
-\begin{table}
-  \caption{Sample table title}
-  \label{sample-table}
+  \caption{Different combinations of hyper parameters}
   \centering
-  \begin{tabular}{lll}
-    \toprule
-    \multicolumn{2}{c}{Part}                   \\
-    \cmidrule(r){1-2}
-    Name     & Description     & Size ($\mu$m) \\
+  \begin{tabular}{c|ccc}
+    \toprule    
+    
+    Embedded Size & Learning Rate  & Window Size  & Min Loss Score\\
     \midrule
-    Dendrite & Input terminal  & $\sim$100     \\
-    Axon     & Output terminal & $\sim$10      \\
-    Soma     & Cell body       & up to $10^6$  \\
+    \multirow{9}{*}{300} & \multirow{6}{*}{0.05} & 1 & 0.841\\
+    & & 2  & 1.559  \\
+    & &3 & 1.942 \\
+    & &4 & 2.151\\
+    & &5  & 2.321\\
+    & &10 & 2.792\\
+    \cmidrule(r){2-4}
+    & \multirow{3}{*}{0.01} & 1 & 1.298 \\
+    & & 2 & 3.295 \\
+    & & 10 & 2.747 \\
+    \cmidrule(r){2-4}
+    & \multirow{3}{*}{0.1} & 1 & 1.311 \\
+    & & 2 & 1.557 \\
+    & & 10 & 3.551 \\
+
     \bottomrule
   \end{tabular}
+\end{center}
 \end{table}
 
-\section{Summary}
+\section{Setting the Optimizer and Loss Function for the model in Task One}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\section{Task Two: Sentiment Classifier \& Transfer Learning}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+
+
+\section{Results}
+
+Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+
+\section{Conclusion}
 
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 
@@ -276,7 +228,9 @@ when listing the references.
 
 \small
 
-[1] Thomas Mandl, Sandip Modha, Prasenjit Majumder, Daksh Patel, Mohana Dave, Chintak Mandlia, and Aditya Patel. Overview of the hasoc track at fire 2019: Hate speech and offensive content identification in indo-european languages. In Proceedings of the 11th Forum for Information Retrieval Evaluation, pages 14–17, 2019.
+[1] Hindi Stopwords - https://github.com/stopwords-iso/stopwords-hi/blob/master/stopwords-hi.txt
+
+[2] Thomas Mandl, Sandip Modha, Prasenjit Majumder, Daksh Patel, Mohana Dave, Chintak Mandlia, and Aditya Patel. Overview of the hasoc track at fire 2019: Hate speech and offensive content identification in indo-european languages. In Proceedings of the 11th Forum for Information Retrieval Evaluation, pages 14–17, 2019.
 
 
 \end{document}
