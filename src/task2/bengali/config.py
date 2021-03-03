@@ -1,5 +1,4 @@
 import torch
-
 """
 For centrally managing all hyper parameters, file paths and config parameters
 """
