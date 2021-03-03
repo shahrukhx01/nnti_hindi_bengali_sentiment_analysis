@@ -1,4 +1,4 @@
-from model import HindiLSTMClassifier
+from model import HindiLSTMAttentionClassifier
 import torch
 from torch import nn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
@@ -14,7 +14,7 @@ while monitoring a metric like accuracy etc
 def train_model(model, optimizer, dataloader, data, max_epochs, config_dict):
     device = config_dict['device']
     criterion = nn.BCELoss() ## since we are doing binary classification
-    max_accuracy = 7e-1
+    max_accuracy = 6e-1
     for epoch in range(max_epochs):
         
         logging.info('Epoch: {}'.format(epoch))

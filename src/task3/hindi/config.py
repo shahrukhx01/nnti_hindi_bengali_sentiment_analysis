@@ -13,12 +13,12 @@ file_paths = \
 
 ## hyper parameters for neural network
 
-batch_size = 128
+batch_size = 16
 num_classes = 2
-hidden_size = 64
+hidden_size = 32
 embedding_size = 300
-lstm_layers = 4
-epochs = 30
+lstm_layers = 8
+epochs = 20
 is_bi_lstm = True
 
 

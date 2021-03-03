@@ -10,9 +10,9 @@ Wrapper class using Pytorch nn.Module to create the architecture for our
 binary classification model
 """
 
-class HindiLSTMClassifier(nn.Module):
+class HindiLSTMAttentionClassifier(nn.Module):
 	def __init__(self, batch_size, output_size, hidden_size, vocab_size, embedding_size, weights, lstm_layers, device, dropout, bidirectional):
-		super(HindiLSTMClassifier, self).__init__()
+		super(HindiLSTMAttentionClassifier, self).__init__()
 		"""
         Initializes model layers and loads pre-trained embeddings from task 1
         """
@@ -99,10 +99,11 @@ class HindiLSTMClassifier(nn.Module):
 		hidden_matrix = torch.bmm(attn_weight_matrix, padded_output)
 
 		fc_out = self.fc_layer(hidden_matrix.view(-1, hidden_matrix.size()[1]*hidden_matrix.size()[2]))
-		logits = torch.relu(self.out(fc_out))
+		#logits = torch.relu(fc_out)
+		out = self.out(fc_out)
 
 		## passing lstm outputs to fully connected layer and then applying sigmoid activation
 		## final_output shape: (batch_size, output_size)
-		final_output = self.sigmoid(logits) ## using sigmoid since binary labels
+		final_output = self.sigmoid(out) ## using sigmoid since binary labels
 		
 		return final_output
