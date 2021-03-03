@@ -30,8 +30,7 @@ class HindiLSTMAttentionClassifier(nn.Module):
 		self.word_embeddings = nn.Embedding(vocab_size, embedding_size)
 		# assigning the look-up table to the pre-trained hindi word embeddings trained in task1.
 		self.word_embeddings.weight = nn.Parameter(weights.to(self.device), requires_grad=False) 
-
-
+		self.dropout_layer = nn.Dropout(p=dropout)
 		self.lstm = nn.LSTM(self.embedding_size, self.lstm_hidden_size, 
 							num_layers=self.lstm_layers, bidirectional=self.bidirectional)
 		
@@ -96,9 +95,9 @@ class HindiLSTMAttentionClassifier(nn.Module):
 			concat_hidden = final_hidden_state[-1]
 
 		
-		hidden_matrix = torch.bmm(attn_weight_matrix, padded_output)
-
-		fc_out = self.fc_layer(hidden_matrix.view(-1, hidden_matrix.size()[1]*hidden_matrix.size()[2]))
+		attention_out = hidden_matrix.view(-1, hidden_matrix.size()[1]*hidden_matrix.size()[2])
+		attention_out = self.dropout_layer(attention_out)
+		fc_out = self.fc_layer(attention_out)
 		#logits = torch.relu(fc_out)
 		out = self.out(fc_out)
 

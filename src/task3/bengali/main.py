@@ -1,5 +1,5 @@
 from data import BengaliData
-from model import BengaliLSTMClassifier
+from model import BengaliLSTMAttentionClassifier
 from train import train_model 
 from eval import evaluate_test_set
 import torch
@@ -17,10 +17,11 @@ def main():
     assert embedding_weights.T.shape == (len(data.vocab), config_dict['embedding_size']), "Pre-trained embeddings size not equal to size of embedding layer"
 
     ## create model instance  with configurations coming from config file
-    model = BengaliLSTMClassifier(pretrained_state_dict_path= config_dict['file_paths']['pretrained_path'], batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
+    model = BengaliLSTMAttentionClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
-                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device']).to(config_dict['device'])
+                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device'], dropout=config_dict['dropout'],
+                                bidirectional=config_dict['is_bi_lstm'], pretrained_path=config_dict['file_paths']['pretrained_path']).to(config_dict['device'])
 
     ## load pretrained weights
     model.load_pretrained_layers()
@@ -31,12 +32,16 @@ def main():
     ## filtering out embedding weights since they won't be optimized
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
 
+    ## try loading model if it exists as pre-trained on disk
+    try:
+        model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device(config_dict['device'])))
+        print('model loaded...')
+    except:
+        print('no prior model')
+    
     ## training the model on train set
     #train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
-
-    ## loading the best model saved during training from disk
-    model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device(config_dict['device'])))
-
+    
     ## evaluate model on test set
     evaluate_test_set(model, data, bengali_dataloader, device=config_dict['device'])
 

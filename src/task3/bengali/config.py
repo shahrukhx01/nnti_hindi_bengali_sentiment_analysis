@@ -1,26 +1,28 @@
 import torch
+
 """
 For centrally managing all hyper parameters, file paths and config parameters
 """
 
 ## hyper parameters for neural network
 
-batch_size = 256
+batch_size = 32
 num_classes = 2
 hidden_size = 32
 embedding_size = 300
-lstm_layers = 8
-epochs = 30
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
+lstm_layers = 4
+epochs = 20
+is_bi_lstm = True
 
 file_paths = \
 {
 'data_file': 'data/bengali_hatespeech_subset.csv',\
 'stpwds_file':'data/stopwords-bn.txt',\
 'embeddings_path':'artefacts/bengali_embedding_weights_all_window_2.pickle',
-'pretrained_path':'artefacts/pre_trained_hindi/hindi_classifier_h{}_l{}.pth'.format(hidden_size, lstm_layers)
+'pretrained_path':'artefacts/pre_trained_hindi/hindi_classifier_attention_h{}_l{}.pth'.format(hidden_size, lstm_layers)
 }
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 ## configuration dictionary
 config_dict = {
@@ -31,6 +33,8 @@ config_dict = {
     'hidden_size': hidden_size,
     'epochs': epochs,
     'embedding_size': embedding_size,
-    'model_name': 'artefacts/bengali_classifier_h{}_l{}'.format(hidden_size, lstm_layers),
-    'device': device
+    'model_name': 'artefacts/bengali_classifier_attention_h{}_l{}'.format(hidden_size, lstm_layers),
+    'device': device,
+    'dropout': 0.5,
+    'is_bi_lstm': is_bi_lstm
     }
