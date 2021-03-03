@@ -30,11 +30,15 @@ def main():
     ## filtering out embedding weights since they won't be optimized
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
 
+     ## try loading model if it exists as pre-trained on disk
+    try:
+        model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device(config_dict['device'])))
+        print('model loaded...')
+    except:
+        print('no prior model')
+    
     ## training the model on train set
-    #train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
-
-    ## loading the best model saved during training from disk
-    model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device('cpu')))
+    train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
 
     ## evaluate model on test set
     evaluate_test_set(model, data, hasoc_dataloader, device=config_dict['device'])
