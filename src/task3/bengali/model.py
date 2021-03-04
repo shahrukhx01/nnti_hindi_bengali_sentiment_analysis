@@ -138,12 +138,9 @@ class BengaliLSTMAttentionClassifier(nn.Module):
 		sentence_embedding shape: (batch_size, lstm_directions*lstm_hidden_size*self_attention_output_size)
 		"""
 		sentence_embedding = sentence_embedding.view(-1, sentence_embedding.size()[1]*sentence_embedding.size()[2])
-
-		## to counterbalance overfitting
-		dropout_sentence_embedding = self.dropout_layer(sentence_embedding)
 		
-		## feeding dropout result to fully connected
-		fc_out = self.fc_layer(dropout_sentence_embedding)
+		## feeding sentence_embedding result to fully connected
+		fc_out = self.fc_layer(sentence_embedding)
 		
 		## finally connecting fc output to output layer
 		out = self.out(fc_out)

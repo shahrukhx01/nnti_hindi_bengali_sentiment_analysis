@@ -6,7 +6,7 @@ For centrally managing all hyper parameters, file paths and config parameters
 
 ## hyper parameters for neural network
 
-batch_size = 96
+batch_size = 256
 num_classes = 2
 hidden_size = 32
 embedding_size = 300
