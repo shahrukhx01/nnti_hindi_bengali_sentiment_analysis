@@ -6,11 +6,11 @@ For centrally managing all hyper parameters, file paths and config parameters
 
 ## hyper parameters for neural network
 
-batch_size = 256
+batch_size = 64
 num_classes = 2
 hidden_size = 32
 embedding_size = 300
-lstm_layers = 1
+lstm_layers = 4
 epochs = 20
 fc_hidden_size = 2000
 is_bi_lstm = True
@@ -26,7 +26,7 @@ file_paths = \
 
 ## self attention config
 self_attention_config = {   
-    'hidden_size': 400, ## refers to variable 'da' in the ICLR paper
+    'hidden_size': 300, ## refers to variable 'da' in the ICLR paper
     'output_size': 30 ## refers to variable 'r' in the ICLR paper
 }
 

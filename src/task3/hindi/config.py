@@ -17,14 +17,14 @@ batch_size = 32
 num_classes = 2
 hidden_size = 32
 embedding_size = 300
-lstm_layers = 6
+lstm_layers = 8
 epochs = 20
 fc_hidden_size = 2000
 is_bi_lstm = True
 
 ## self attention config
 self_attention_config = {   
-    'hidden_size': 400, ## refers to variable 'da' in the ICLR paper
+    'hidden_size': 300, ## refers to variable 'da' in the ICLR paper
     'output_size': 30 ## refers to variable 'r' in the ICLR paper
 }
 

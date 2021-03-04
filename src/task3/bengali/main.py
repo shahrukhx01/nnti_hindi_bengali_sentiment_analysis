@@ -25,7 +25,7 @@ def main():
                             self_attention_config=config_dict['self_attention_config'], fc_hidden_size=config_dict['fc_hidden_size']).to(config_dict['device'])
 
     ## load pretrained weights
-    model.load_pretrained_layers()
+    #model.load_pretrained_layers()
 
     ## get dataloaders for train and test set
     bengali_dataloader = data.get_data_loader(batch_size=config_dict['batch_size'])
@@ -41,7 +41,7 @@ def main():
         print('no prior model')
     
     ## training the model on train set
-    #train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
+    train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
     
     ## evaluate model on test set
     evaluate_test_set(model, data, bengali_dataloader, device=config_dict['device'])
