@@ -112,11 +112,13 @@ class HindiLSTMAttentionClassifier(nn.Module):
 		packed_input = pack_padded_sequence(embeddings, lengths)
 
 		
-		## padded_output shape : (seq_len, batch_size, num_lstm_layers * num_directions)
+		"""
+		here padded_output refer to matrix 'H' in the ICLR paper
+		padded_output post permute shape: (batch_size , seq_len, num_lstm_layers * num_directions)
+		"""
 		output, (final_hidden_state, final_cell_state) = self.bilstm(packed_input, self.hidden)
 		padded_output, unpacked_lengths = pad_packed_sequence(output)
 
-		## here padded_output refer to matrix 'H' in the ICLR paper
 		#padded_output post permute shape: (batch_size , seq_len, num_lstm_layers * num_directions)
 		padded_output = padded_output.permute(1, 0, 2)
 
