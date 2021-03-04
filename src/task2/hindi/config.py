@@ -13,11 +13,11 @@ file_paths = \
 
 ## hyper parameters for neural network
 
-batch_size = 16
+batch_size = 256
 num_classes = 2
 hidden_size = 32
 embedding_size = 300
-lstm_layers = 1
+lstm_layers = 6
 epochs = 30
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
