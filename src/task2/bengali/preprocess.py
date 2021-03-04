@@ -17,7 +17,7 @@ class Preprocess:
         """
         Loads stopwords from file
         """
-        stopwords_bengali_file = open(self.STOPWORDS_PATH, 'r') ## open file
+        stopwords_bengali_file = open(self.STOPWORDS_PATH, 'r', encoding='utf-8') ## open file
         self.stopwords_bengali = [line.replace('\n','') for line in stopwords_bengali_file.readlines()] ## add keywords to list for later use
 
 
