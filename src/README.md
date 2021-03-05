@@ -8,7 +8,7 @@
 * `task2/hindi` contains code for task 2 part (a).
 * `task2/bengali` contains  code for task 2 parts (b), (c) & (d).
 
-### /task3: Challenge Task
+### task3: Challenge Task
 * `task3/hindi` contains code for improved Hindi Sentiment Classifier.
 * `task3/bengali` contains  code for improved Bengali Sentiment Classifier.
 
