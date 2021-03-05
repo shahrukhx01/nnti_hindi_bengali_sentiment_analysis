@@ -1,4 +1,4 @@
-# Hindi Self Attentive Sentence Embeddings based Bengali Sentiment Analysis Classifier
+# Bengali Self Attentive Sentence Embeddings based Sentiment Analysis Classifier
 
 ## Directory structure
 
