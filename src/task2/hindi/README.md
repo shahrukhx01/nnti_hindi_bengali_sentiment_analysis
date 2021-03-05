@@ -6,7 +6,6 @@
 * `artefacts` contains checkpointed/saved word embeddings and PyTorch models which performed best on development set for different hyper-parameter configurations.
 * `Hindi_Binary_Classifier.ipynb` contains the runtime code for training classifier on train set and evaluating on test set.
 * `hasoc_dataset.py` extends standard PyTorch dataset utility to conveniently batch data.
-* `bengali_subset_data.py` script for splitting Bengali dataset which is roughly equal to Hindi dataset.
 * `config.py` python script which exports all configurations for hyper-parameters, saving and loading models as python dictionary.
 * `data.py` main script for calling preprocssing routine, transforming text to tensors, wrapping tensors with Pytorch dataset class, then creating train, test and dev dataloaders.
 * `eval.py` evaluates the given model on test dataset.
