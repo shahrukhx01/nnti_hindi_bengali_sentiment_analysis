@@ -3,6 +3,7 @@ import torch
 from torch import nn
 from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
 import logging
+from torch.autograd import Variable
 logging.basicConfig(level=logging.INFO)
 
 """
