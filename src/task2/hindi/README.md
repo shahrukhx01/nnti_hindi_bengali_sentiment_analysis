@@ -2,8 +2,8 @@
 
 ## Directory structure
 
-* `data` directory contains stopwords and bengali subset dataset files.
-* `artefacts` contains checkpointed/saved PyTorch models which performed best on development set for different hyper-parameter configurations.
+* `data` directory contains stopwords and hindi dataset files.
+* `artefacts` contains checkpointed/saved word embeddings and PyTorch models which performed best on development set for different hyper-parameter configurations.
 * `Hindi_Binary_Classifier.ipynb` contains the runtime code for training classifier on train set and evaluating on test set.
 * `hasoc_dataset.py` extends standard PyTorch dataset utility to conveniently batch data.
 * `bengali_subset_data.py` script for splitting Bengali dataset which is roughly equal to Hindi dataset.
