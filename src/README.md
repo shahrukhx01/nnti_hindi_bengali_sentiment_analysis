@@ -1,11 +1,8 @@
 ## Directory structure
 
-### task1: Word Embeddings
+### /task1: Word Embeddings
 
-
-* Follow the instructions in the notebook, complete the code, and run it
-* Save the trained word embeddings
-* Update your repository with the completed notebook
+* `Task1_Word_Embeddings.ipynb` contains entire code for task 1.
 
 ### Task 2: Sentiment Classifier & Transfer Learning
 
