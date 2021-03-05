@@ -63,3 +63,9 @@ In case you encounter any problems or have any doubts regarding this project, pl
 2.  Tomas Mikolov, Kai Chen, Greg Corrado, and Jeffrey Dean. Efficient estimation of word representations in vector space. *arXiv preprint arXiv:1301.3781*, 2013.
 3.  Jeffrey Pennington, Richard Socher, and Christopher D Manning. Glove: Global vectors forword representation. *In Proceedings of the 2014 conference on empirical methods in natural language processing (EMNLP)*, pages 1532–1543, 2014.
 4.  Thomas Mandl, Sandip Modha, Prasenjit Majumder, Daksh Patel, Mohana Dave, Chintak Mandlia,  and  Aditya  Patel.   Overview  of  the  hasoc  track  at  fire  2019:  Hate speech  and offensive content identification in indo-european languages. *In Proceedings of the 11th Forum for Information Retrieval Evaluation*, pages 14–17, 2019.
+
+## Code References
+1. https://github.com/claravania/lstm-pytorch/
+2. https://github.com/prakashpandey9/Text-Classification-Pytorch/
+3. https://github.com/ngarneau/understanding-pytorch-batching-lstm/blob/master/Understanding%20Pytorch%20Batching.ipynb
+4. https://pub.towardsai.net/create-your-own-mini-word-embedding-from-scratch-c7b32bd84f8e
