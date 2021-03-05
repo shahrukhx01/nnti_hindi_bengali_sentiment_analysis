@@ -35,7 +35,7 @@ class SelfAttention(nn.Module):
 
 class HindiLSTMAttentionClassifier(nn.Module):
 	def __init__(self, batch_size, output_size, hidden_size, vocab_size, 
-				embedding_size, weights, lstm_layers, device, dropout, 
+				embedding_size, weights, lstm_layers, device, 
 				bidirectional, self_attention_config, fc_hidden_size):
 		super(HindiLSTMAttentionClassifier, self).__init__()
 		"""
@@ -58,10 +58,7 @@ class HindiLSTMAttentionClassifier(nn.Module):
 		self.word_embeddings = nn.Embedding(vocab_size, embedding_size)
 		# assigning the look-up table to the pre-trained hindi word embeddings trained in task1.
 		self.word_embeddings.weight = nn.Parameter(weights.to(self.device), requires_grad=False) 
-		
-		## adding dropout to counterbalance overfitting
-		self.dropout_layer = nn.Dropout(p=dropout)
-
+	
 		## initializng lstm layer
 		self.bilstm = nn.LSTM(self.embedding_size, self.lstm_hidden_size, 
 							num_layers=self.lstm_layers, bidirectional=self.bidirectional)
@@ -151,4 +148,4 @@ class HindiLSTMAttentionClassifier(nn.Module):
 		## final_output shape: (batch_size, output_size)
 		final_output = self.sigmoid(out) ## using sigmoid since binary labels
 		
-		return final_output
+		return (final_output, annotation_weight_matrix)

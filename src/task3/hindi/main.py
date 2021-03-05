@@ -20,7 +20,7 @@ def main():
     model = HindiLSTMAttentionClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
-                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device'], dropout=config_dict['dropout'],
+                                lstm_layers=config_dict['lstm_layers'], device=config_dict['device'],
                                 bidirectional=config_dict['is_bi_lstm'], self_attention_config=config_dict['self_attention_config'], 
                                 fc_hidden_size=config_dict['fc_hidden_size']).to(config_dict['device'])
 
@@ -40,7 +40,7 @@ def main():
         print('no prior model')
     
     ## training the model on train set
-    train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
+    #train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
 
     ## evaluate model on test set
     evaluate_test_set(model, data, hasoc_dataloader, device=config_dict['device'])

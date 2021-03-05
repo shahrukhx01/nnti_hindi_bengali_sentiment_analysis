@@ -26,9 +26,14 @@ def train_model(model, optimizer, dataloader, data, max_epochs, config_dict):
 
             model.zero_grad()
 
-            pred = model(torch.autograd.Variable(batch).to(device), lengths.cpu().numpy()) ## perform forward pass         
+            pred, annotation_weight_matrix = model(torch.autograd.Variable(batch).to(device), lengths.cpu().numpy()) ## perform forward pass         
+            ## compute attention loss using the following term: ||AAT - I||
+            attention_loss = attention_penalty_loss(annotation_weight_matrix, 
+                                                    config_dict['self_attention_config']['penalty'], device)
             predictions = torch.max(pred, 1)[0].float() ## get the prediction values
-            loss = criterion(predictions.to(device), torch.autograd.Variable(targets.float()).to(device)) ## compute loss 
+             ## compute combined loss: classification + attention
+            loss = criterion(predictions.to(device), 
+                            torch.autograd.Variable(targets.float()).to(device)) + attention_loss 
 
             loss.backward() ## perform backward pass
             optimizer.step() ## update weights
@@ -51,6 +56,50 @@ def train_model(model, optimizer, dataloader, data, max_epochs, config_dict):
         logging.info("Train loss: {} - acc: {} -- Validation loss: {} - acc: {}".format(torch.mean(total_loss.data.float()), acc, val_loss, val_acc))
     return model
 
+def attention_penalty_loss(annotation_weight_matrix, penalty_coef,device):
+    """
+    This function computes the loss from annotation/attention matrix
+    to reduce redundancy in annotation matrix and for attention
+    to focus on different parts of the sequence corresponding to the
+    penalty term 'P' in the ICLR paper
+    ----------------------------------
+    'annotation_weight_matrix' refers to matrix 'A' in the ICLR paper
+    annotation_weight_matrix shape: (batch_size, attention_out, seq_len)
+    """
+    batch_size, attention_out_size = annotation_weight_matrix.size(0), annotation_weight_matrix.size(1)
+    ## this fn computes ||AAT - I|| where norm is the frobenius norm
+    ## taking transpose of annotation matrix
+    ## shape post transpose: (batch_size, seq_len, attention_out)
+    annotation_weight_matrix_trans = annotation_weight_matrix.transpose(1, 2) 
+
+    ## corresponds to AAT
+    ## shape: (batch_size, attention_out, attention_out)
+    annotation_mul = torch.bmm(annotation_weight_matrix, annotation_weight_matrix_trans)
+
+    ## corresponds to 'I'
+    identity = torch.eye(annotation_weight_matrix.size(1))
+    ## make equal to the shape of annotation_mul and move it to device
+    identity = Variable(identity.unsqueeze(0).expand(batch_size, attention_out_size, attention_out_size).to(device))
+    
+    ## compute AAT - I
+    annotation_mul_difference = annotation_mul - identity
+
+    ## compute the frobenius norm
+    penalty = frobenius_norm(annotation_mul_difference)
+    
+    ## compute loss
+    loss = (penalty_coef * penalty/batch_size).type(torch.FloatTensor)
+
+    return loss
+    
+
+
+def frobenius_norm(annotation_mul_difference):
+    """
+    Computes the frobenius norm of the annotation_mul_difference input as matrix
+    """
+    return torch.sum(torch.sum(torch.sum(annotation_mul_difference**2,1),1)**0.5).type(torch.DoubleTensor)
+
 def evaluate_dev_set(model, data, criterion, data_loader, device):
     """
     Evaluates the model performance on dev data
@@ -63,7 +112,7 @@ def evaluate_dev_set(model, data, criterion, data_loader, device):
     for batch, targets, lengths, raw_data in data_loader['dev_loader']:
         batch, targets, lengths = data.sort_batch(batch, targets, lengths) ## sorts the batch wrt the length of sequences
 
-        pred = model(torch.autograd.Variable(batch).to(device), lengths.cpu().numpy()) ## perform forward pass                    
+        pred, annotation_weight_matrix = model(torch.autograd.Variable(batch).to(device), lengths.cpu().numpy()) ## perform forward pass                    
         predictions = torch.max(pred, 1)[0].float()
         pred_idx = torch.max(pred, 1)[1]
         loss = criterion(predictions.to(device), torch.autograd.Variable(targets.float()).to(device)) ## compute loss 

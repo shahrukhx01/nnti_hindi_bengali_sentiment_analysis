@@ -34,7 +34,7 @@ class SelfAttention(nn.Module):
 
 class BengaliLSTMAttentionClassifier(nn.Module):
 	def __init__(self, batch_size, output_size, hidden_size, vocab_size, 
-				embedding_size, weights, lstm_layers, device, dropout, 
+				embedding_size, weights, lstm_layers, device, 
 				bidirectional, self_attention_config, fc_hidden_size, pretrained_path):
 		super(BengaliLSTMAttentionClassifier, self).__init__()
 		"""
@@ -59,9 +59,6 @@ class BengaliLSTMAttentionClassifier(nn.Module):
 		# assigning the look-up table to the pre-trained hindi word embeddings trained in task1.
 		self.word_embeddings.weight = nn.Parameter(weights.to(self.device), requires_grad=False) 
 		
-		## adding dropout to counterbalance overfitting
-		self.dropout_layer = nn.Dropout(p=dropout)
-
 		## initializng lstm layer
 		self.bilstm = nn.LSTM(self.embedding_size, self.lstm_hidden_size, 
 							num_layers=self.lstm_layers, bidirectional=self.bidirectional)
@@ -152,28 +149,4 @@ class BengaliLSTMAttentionClassifier(nn.Module):
 		## final_output shape: (batch_size, output_size)
 		final_output = self.sigmoid(out) ## using sigmoid since binary labels
 		
-		return final_output
-
-	
-	def load_pretrained_layers(self):
-		"""
-        Loads pretrained LSTM and FC layers from hindi classifier
-        """
-	
-		state_dict = None
-		try:
-			## load pretrained weights
-			state_dict = torch.load(self.pretrained, map_location=torch.device(self.device)) 
-		except Exception as e:
-			print("No pretrained model exists for current architecture!")
-			print(e)
-			return
-			
-		print('Loading pretrained weights...')
-		
-		## iterating over pretrained state dict and copying weights to own state dict except embeddings
-		for name, param in state_dict.items():
-			if name not in self.state_dict() or name == 'word_embeddings.weight':
-				print('Skipping the following layer(s): {}'.format(name))
-				continue
-			self.state_dict()[name].copy_(param.data)
+		return final_output, annotation_weight_matrix
