@@ -3,7 +3,7 @@
 ## Directory structure
 
 * `data` directory contains stopwords and bengali subset dataset files.
-* `artefacts` contains checkpointed/saved PyTorch models which performed best on development set for different hyper-parameter configurations.
+* `artefacts` contains checkpointed/saved word embeddings and PyTorch models which performed best on development set for different hyper-parameter configurations.
 * `Bengali_Word_Embeddings.ipynb` contains the code for training word2vec embeddings for Bengali dataset.
 * `Bengali_Transfer_Learning_Binary_Classifier.ipynb` contains the runtime code for training classifier on train set and evaluating on test set.
 * `bengali_dataset.py` extends standard PyTorch dataset utility to conveniently batch data.
