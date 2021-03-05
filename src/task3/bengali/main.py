@@ -24,6 +24,8 @@ def main():
                             bidirectional=config_dict['is_bi_lstm'], pretrained_path=config_dict['file_paths']['pretrained_path'],
                             self_attention_config=config_dict['self_attention_config'], fc_hidden_size=config_dict['fc_hidden_size']).to(config_dict['device'])
 
+    ## load pretrained layer
+    model.load_pretrained_layers()
 
     ## get dataloaders for train and test set
     bengali_dataloader = data.get_data_loader(batch_size=config_dict['batch_size'])

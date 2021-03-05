@@ -25,7 +25,7 @@ is_bi_lstm = True
 ## self attention config
 self_attention_config = {   
     'hidden_size': 300, ## refers to variable 'da' in the ICLR paper
-    'output_size': 30, ## refers to variable 'r' in the ICLR paper
+    'output_size': 10, ## refers to variable 'r' in the ICLR paper
     'penalty': 0.0 ## refers to penalty coefficient term in the ICLR paper
 }
 
@@ -40,7 +40,8 @@ config_dict = {
     'hidden_size': hidden_size,
     'epochs': epochs,
     'embedding_size': embedding_size,
-    'model_name': 'artefacts/hindi_classifier_attention_h{}_l{}_p{}'.format(hidden_size, lstm_layers, str(self_attention_config['penalty']).replace(".","_")),
+    'model_name': 'artefacts/hindi_classifier_attention_h{}_l{}_p{}_r{}'.format(hidden_size, lstm_layers, 
+                                                str(self_attention_config['penalty']).replace(".","_"), self_attention_config['output_size']),
     'device': device,
     'is_bi_lstm': is_bi_lstm, 
     'self_attention_config': self_attention_config,
