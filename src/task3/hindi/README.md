@@ -1,4 +1,4 @@
-# Hindi Sentiment Analysis Classifier
+# Hindi Self Attentive Sentence Embeddings based Sentiment Analysis Classifier
 
 ## Directory structure
 
