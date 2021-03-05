@@ -1,4 +1,4 @@
-# Transfer Learning Based Bengali Sentiment Analysis
+# Hindi Self Attentive Sentence Embeddings based Bengali Sentiment Analysis Classifier
 
 ## Directory structure
 
