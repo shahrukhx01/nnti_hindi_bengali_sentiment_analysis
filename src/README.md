@@ -4,14 +4,13 @@
 
 * `Task1_Word_Embeddings.ipynb` contains entire code for task 1.
 
-### Task 2: Sentiment Classifier & Transfer Learning
+### /task2: Sentiment Classifier & Transfer Learning
+* `/hindi` contains code for task 2 part (a).
+* `/bengali` contains  code for task 2 parts (b), (c) & (d).
 
-### Task 3: Challenge Task
-In this third and final task of this project, you are expected to -
-
-* Read multiple resources about the state-of-the-art work related to sentiment classification and analysis
-* Try to come up with methodologies that would possibly improve your existing results
-* Improve on the 3 accuracy scores from Task 2
+### /task3: Challenge Task
+* `/hindi` contains code for improved Hindi Sentiment Classifier.
+* `/bengali` contains  code for improved Bengali Sentiment Classifier.
 
 
 ## Code References
