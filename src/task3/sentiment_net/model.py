@@ -9,29 +9,6 @@ Wrapper class using Pytorch nn.Module to create the architecture for our
 binary classification model
 """
 
-class SelfAttention(nn.Module):
-	def __init__(self, input_size, hidden_size, output_size):
-		super(SelfAttention, self).__init__()
-		## corresponds to variable Ws1 in ICLR paper
-		self.layer1 = nn.Linear(input_size, hidden_size)
-		## corresponds to variable Ws2 in ICLR paper
-		self.layer2 = nn.Linear(hidden_size, output_size)
-
-	## the forward function would receive lstm's all hidden states as input
-	def forward(self, attention_input):
-		## expected input shape: (batch_size , seq_len, num_lstm_layers * num_directions)
-		out = self.layer1(attention_input)
-		#out shape: (batch_size, seq_len, attention_hidden_size)
-		out = torch.tanh(out)
-		#out shape: (batch_size, seq_len, attention_out)
-		out = self.layer2(out)
-		## out shape post permute: (batch_size, attention_out, seq_len)
-		out = out.permute(0, 2, 1)
-		out = F.softmax(out, dim=2) ## softmax dimenion as per the paper
-
-		return out ## out shape: (batch_size, attention_out, seq_len)
-
-
 class SentimentNet(nn.Module):
 	def __init__(self, batch_size, output_size, hidden_size, hindi_vocab_size, bengali_vocab_size, 
 				embedding_size, hindi_weights, bengali_weights, lstm_layers, device, 
@@ -67,7 +44,7 @@ class SentimentNet(nn.Module):
 		
 		## initializng lstm layer
 		self.bilstm = nn.LSTM(self.embedding_size, self.lstm_hidden_size, 
-							num_layers=self.lstm_layers, bidirectional=self.bidirectional)
+							num_layers=self.lstm_layers, bidirectional=self.bidirectional, dropout=0.5)
 
 		## sigmoid activation for output layer as we have binary labels
 		self.sigmoid = nn.Sigmoid()
@@ -183,3 +160,25 @@ class SentimentNet(nn.Module):
 				print('Skipping the following layer(s): {}'.format(name))
 				continue
 			self.state_dict()[name].copy_(param.data)
+
+class SelfAttention(nn.Module):
+	def __init__(self, input_size, hidden_size, output_size):
+		super(SelfAttention, self).__init__()
+		## corresponds to variable Ws1 in ICLR paper
+		self.layer1 = nn.Linear(input_size, hidden_size)
+		## corresponds to variable Ws2 in ICLR paper
+		self.layer2 = nn.Linear(hidden_size, output_size)
+
+	## the forward function would receive lstm's all hidden states as input
+	def forward(self, attention_input):
+		## expected input shape: (batch_size , seq_len, num_lstm_layers * num_directions)
+		out = self.layer1(attention_input)
+		#out shape: (batch_size, seq_len, attention_hidden_size)
+		out = torch.tanh(out)
+		#out shape: (batch_size, seq_len, attention_out)
+		out = self.layer2(out)
+		## out shape post permute: (batch_size, attention_out, seq_len)
+		out = out.permute(0, 2, 1)
+		out = F.softmax(out, dim=2) ## softmax dimenion as per the paper
+
+		return out ## out shape: (batch_size, attention_out, seq_len)
