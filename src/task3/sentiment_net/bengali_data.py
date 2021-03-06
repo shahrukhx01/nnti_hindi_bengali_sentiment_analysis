@@ -102,7 +102,7 @@ class BengaliData:
         
         train_dev_split = int(np.floor(dev_size * len(train_indices))) ## splitting train data further into train and dev
         train_indices, dev_indices = train_indices[train_dev_split:], train_indices[:train_dev_split]
-
+        print('train', len(train_indices), 'dev',len(dev_indices), 'test', len(test_indices))
         ## creating pytorch data samplers 
         return SubsetRandomSampler(train_indices), SubsetRandomSampler(dev_indices), SubsetRandomSampler(test_indices)
 
