@@ -1,4 +1,4 @@
-# Bengali Transfer Learning Sentiment Analysis Classifier with Self Attentive Sentence Embeddings
+# Multi Task Learning with Self Attentive Sentence Embeddings
 
 ## Directory structure
 
