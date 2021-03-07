@@ -31,6 +31,9 @@ def main():
                             bidirectional=config_dict['is_bi_lstm'], pretrained_path=config_dict['bengali_file_paths']['pretrained_path'],
                             self_attention_config=config_dict['self_attention_config'], fc_hidden_size=config_dict['fc_hidden_size']).to(config_dict['device'])
 
+    ## load pre_trained layers
+    if config_dict['pretraining']:
+        model.load_pretrained_layers()
 
     ## get dataloaders for train and test set
     bengali_dataloader = bengali_data.get_data_loader(batch_size=config_dict['batch_size'])
@@ -50,7 +53,7 @@ def main():
     """train_model(model, optimizer, bengali_dataloader=bengali_dataloader, hindi_dataloader=hindi_dataloader, 
                 hindi_data=hindi_data, bengali_data=bengali_data, max_epochs=config_dict['epochs'], config_dict=config_dict)
     """
-   
+    
     ## evaluate model on test set
     evaluate_bengali_test_set(model, bengali_data, bengali_dataloader, device=config_dict['device'])
     evaluate_hindi_test_set(model, hindi_data, hindi_dataloader, device=config_dict['device'])

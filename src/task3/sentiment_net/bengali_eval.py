@@ -53,6 +53,6 @@ def evaluate_bengali_test_set(model, data, data_loader, device):
 
     acc = accuracy_score(y_true, y_pred) ## computing accuracy using sklearn's function
 
-    print("Test acc: {}".format(acc))
-    print('\n\n')
+    print("Bengali Test acc: {}".format(acc))
+    print('Bengali Classification Report\n\n')
     print(classification_report(y_true, y_pred, target_names=target_names)) ## computing other classification metrics via sklearn in classification report

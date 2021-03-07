@@ -61,7 +61,7 @@ class BengaliLSTMAttentionClassifier(nn.Module):
 		
 		## initializng lstm layer
 		self.bilstm = nn.LSTM(self.embedding_size, self.lstm_hidden_size, 
-							num_layers=self.lstm_layers, bidirectional=self.bidirectional)
+							num_layers=self.lstm_layers, bidirectional=self.bidirectional, dropout=0.5)
 
 		## sigmoid activation for output layer as we have binary labels
 		self.sigmoid = nn.Sigmoid()
