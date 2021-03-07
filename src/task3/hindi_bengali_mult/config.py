@@ -14,7 +14,7 @@ lstm_layers = 8
 epochs = 20
 fc_hidden_size = 2000
 is_bi_lstm = True
-pretraining = True ## flag for whether to load pretrained Hindi model or not
+pretraining = False ## flag for whether to load pretrained Hindi model or not
 
 
 ## self attention config
