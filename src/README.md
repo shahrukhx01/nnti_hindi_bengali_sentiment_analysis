@@ -14,7 +14,9 @@
 
 
 ## Code References
-1. https://github.com/claravania/lstm-pytorch/
-2. https://github.com/prakashpandey9/Text-Classification-Pytorch/
-3. https://github.com/ngarneau/understanding-pytorch-batching-lstm/blob/master/Understanding%20Pytorch%20Batching.ipynb
-4. https://pub.towardsai.net/create-your-own-mini-word-embedding-from-scratch-c7b32bd84f8e
+1. https://github.com/stopwords-iso/stopwords-hi
+2. https://github.com/stopwords-iso/stopwords-bn
+3. https://github.com/claravania/lstm-pytorch/
+4. https://github.com/prakashpandey9/Text-Classification-Pytorch/
+5. https://github.com/ngarneau/understanding-pytorch-batching-lstm/blob/master/Understanding%20Pytorch%20Batching.ipynb
+6. https://pub.towardsai.net/create-your-own-mini-word-embedding-from-scratch-c7b32bd84f8e
