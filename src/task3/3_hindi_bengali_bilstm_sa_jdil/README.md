@@ -1,5 +1,5 @@
 # Joint Dual Input Learning with Self Attentive Sentence Embeddings
-
+![Joint Dual Input Learning Ideation](https://github.com/shahrukhx01/nnti_hindi_bengali_sentiment_analysis/blob/main/src/task3/3_hindi_bengali_bilstm_sa_jdil/sentiment_net_ideation.png)
 ## Directory structure
 
 * `data` directory contains stopwords and bengali subset dataset files.
