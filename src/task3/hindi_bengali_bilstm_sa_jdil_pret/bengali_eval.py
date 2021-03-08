@@ -7,10 +7,17 @@ logging.basicConfig(level=logging.INFO)
 Script for evaluating the neural network on test set
 """
 
-def evaluate_bengali_test_set(model, data, data_loader, device):
+def evaluate_bengali_test_set(model, model_name, data, data_loader, device):
     """
     Evaluates the model performance on test data
     """
+    ## try loading model if it exists as pre-trained on disk
+    try:
+        model.load_state_dict(torch.load('{}.pth'.format(model_name), map_location=torch.device(device)))
+        print('best bengali model loaded...')
+    except:
+        print('no bengali prior model')
+
     model.eval()
     logging.info('Evaluating accuracy on Bengali test set')
 
