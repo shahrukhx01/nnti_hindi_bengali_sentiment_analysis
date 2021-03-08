@@ -2,7 +2,7 @@
 
 ### task1: Word Embeddings
 
-* `task1/Task1_Word_Embeddings.ipynb` contains entire code for task 1.
+* `task1/Task1_Word_Embeddings.ipynb` contains entire code for task 1, i.e., Hindin Word Embeddings.
 
 ### task2: Sentiment Classifier & Transfer Learning
 * `task2/1_hindi_lstm` contains code for task 2 part (a) i.e, Hindi-LSTM classifier.
