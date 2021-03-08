@@ -40,7 +40,7 @@ def main():
         print('no prior model')
     
     ## training the model on train set
-    train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
+    #train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
 
     ## evaluate model on test set
     evaluate_test_set(model, data, hasoc_dataloader, device=config_dict['device'])

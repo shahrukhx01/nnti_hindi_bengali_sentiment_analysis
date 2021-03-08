@@ -9,29 +9,6 @@ Wrapper class using Pytorch nn.Module to create the architecture for our
 binary classification model
 """
 
-class SelfAttention(nn.Module):
-	def __init__(self, input_size, hidden_size, output_size):
-		super(SelfAttention, self).__init__()
-		## corresponds to variable Ws1 in ICLR paper
-		self.layer1 = nn.Linear(input_size, hidden_size)
-		## corresponds to variable Ws2 in ICLR paper
-		self.layer2 = nn.Linear(hidden_size, output_size)
-
-	## the forward function would receive lstm's all hidden states as input
-	def forward(self, attention_input):
-		## expected input shape: (batch_size , seq_len, num_lstm_layers * num_directions)
-		out = self.layer1(attention_input)
-		#out shape: (batch_size, seq_len, attention_hidden_size)
-		out = torch.tanh(out)
-		#out shape: (batch_size, seq_len, attention_out)
-		out = self.layer2(out)
-		## out shape post permute: (batch_size, attention_out, seq_len)
-		out = out.permute(0, 2, 1)
-		out = F.softmax(out, dim=2) ## softmax dimenion as per the paper
-
-		return out ## out shape: (batch_size, attention_out, seq_len)
-
-
 class BengaliLSTMAttentionClassifier(nn.Module):
 	def __init__(self, batch_size, output_size, hidden_size, vocab_size, 
 				embedding_size, weights, lstm_layers, device, 
@@ -172,3 +149,28 @@ class BengaliLSTMAttentionClassifier(nn.Module):
 				print('Skipping the following layer(s): {}'.format(name))
 				continue
 			self.state_dict()[name].copy_(param.data)
+		
+class SelfAttention(nn.Module):
+	"""
+	Implementation of the attention block
+	"""
+	def __init__(self, input_size, hidden_size, output_size):
+		super(SelfAttention, self).__init__()
+		## corresponds to variable Ws1 in ICLR paper, we don't use the bias term as suggested in paper
+		self.layer1 = nn.Linear(input_size, hidden_size, bias=False)
+		## corresponds to variable Ws2 in ICLR paper, we don't use the bias term as suggested in paper
+		self.layer2 = nn.Linear(hidden_size, output_size, bias=False)
+
+	## the forward function would receive lstm's all hidden states as input
+	def forward(self, attention_input):
+		## expected input shape: (batch_size , seq_len, num_lstm_layers * num_directions)
+		out = self.layer1(attention_input)
+		#out shape: (batch_size, seq_len, attention_hidden_size)
+		out = torch.tanh(out)
+		#out shape: (batch_size, seq_len, attention_out)
+		out = self.layer2(out)
+		## out shape post permute: (batch_size, attention_out, seq_len)
+		out = out.permute(0, 2, 1)
+		out = F.softmax(out, dim=2) ## softmax dimenion as per the paper
+
+		return out ## out shape: (batch_size, attention_out, seq_len)
