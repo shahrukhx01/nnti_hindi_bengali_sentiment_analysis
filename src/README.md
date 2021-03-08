@@ -9,8 +9,10 @@
 * `task2/2_bengali_lstm_pret` contains  code for task 2 parts (b), (c) & (d).
 
 ### task3: Challenge Task
-* `task3/hindi` contains code for improved Hindi Sentiment Classifier.
-* `task3/bengali` contains  code for improved Bengali Sentiment Classifier.
+* `task3/1_hindi_bilstm_sa` contains code for improved Hindi Sentiment Classifier.
+* `task3/2_bengali_bilstm_sa_pret` contains  code for improved Bengali Sentiment Classifier.
+* `task3/3_hindi_bengali_bilstm_sa_jdil` contains code for improved Hindi Sentiment Classifier.
+* `task3/4_hindi_bengali_bilstm_sa_jdil_pret` contains code for improved Hindi Sentiment Classifier.
 
 
 ## Code References
