@@ -4,7 +4,7 @@
 * `data` directory contains stopwords and bengali subset dataset files.
 * `artefacts` contains checkpointed/saved word embeddings and PyTorch models which performed best on development set for different hyper-parameter configurations.
 * `Sentiment_Net.ipynb.ipynb` contains the runtime code for training classifier on train set and evaluating on test set.
-* `bengali_dataset.py` & `hindi_dataset.py` extends standard PyTorch dataset utility to conveniently batch data.
+* `bengali_dataset.py` & `hasoc_dataset.py` extends standard PyTorch dataset utility to conveniently batch data.
 * `bengali_subset_data.py` script for splitting Bengali dataset which is roughly equal to Hindi dataset.
 * `config.py` python script which exports all configurations for hyper-parameters, saving and loading models as python dictionary.
 * `hindi_data.py` & `bengali_data.py` main script for calling preprocssing routine, transforming text to tensors, wrapping tensors with Pytorch dataset class, then creating train, test and dev dataloaders for Hindi and Bengali.
