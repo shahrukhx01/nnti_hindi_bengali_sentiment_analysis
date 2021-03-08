@@ -164,12 +164,15 @@ class SentimentNet(nn.Module):
 		
 
 class SelfAttention(nn.Module):
+	"""
+	Implementation of the attention block
+	"""
 	def __init__(self, input_size, hidden_size, output_size):
 		super(SelfAttention, self).__init__()
-		## corresponds to variable Ws1 in ICLR paper
-		self.layer1 = nn.Linear(input_size, hidden_size)
-		## corresponds to variable Ws2 in ICLR paper
-		self.layer2 = nn.Linear(hidden_size, output_size)
+		## corresponds to variable Ws1 in ICLR paper, we don't use the bias term as suggested in paper
+		self.layer1 = nn.Linear(input_size, hidden_size, bias=False)
+		## corresponds to variable Ws2 in ICLR paper, we don't use the bias term as suggested in paper
+		self.layer2 = nn.Linear(hidden_size, output_size, bias=False)
 
 	## the forward function would receive lstm's all hidden states as input
 	def forward(self, attention_input):

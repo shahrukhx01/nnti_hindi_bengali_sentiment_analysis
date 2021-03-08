@@ -41,13 +41,6 @@ def main():
 
     ## filtering out embedding weights since they won't be optimized
     optimizer = torch.optim.Adam(filter(lambda p: p.requires_grad, model.parameters()))
-
-    ## try loading model if it exists as pre-trained on disk
-    try:
-        model.load_state_dict(torch.load('{}.pth'.format(config_dict['model_name']), map_location=torch.device(config_dict['device'])))
-        print('model loaded...')
-    except:
-        print('no prior model')
     
     ## training the model on train set
     """train_model(model, optimizer, bengali_dataloader=bengali_dataloader, hindi_dataloader=hindi_dataloader, 
@@ -55,8 +48,8 @@ def main():
     """
     
     ## evaluate model on test set
-    evaluate_bengali_test_set(model, bengali_data, bengali_dataloader, device=config_dict['device'])
-    evaluate_hindi_test_set(model, hindi_data, hindi_dataloader, device=config_dict['device'])
+    evaluate_bengali_test_set(model, config_dict['bengali_model_name'], bengali_data, bengali_dataloader, device=config_dict['device'])
+    evaluate_hindi_test_set(model, config_dict['hindi_model_name'], hindi_data, hindi_dataloader, device=config_dict['device'])
 
 
 if __name__ == "__main__":
