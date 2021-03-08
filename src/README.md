@@ -5,8 +5,8 @@
 * `task1/Task1_Word_Embeddings.ipynb` contains entire code for task 1.
 
 ### task2: Sentiment Classifier & Transfer Learning
-* `task2/hindi` contains code for task 2 part (a).
-* `task2/bengali` contains  code for task 2 parts (b), (c) & (d).
+* `task2/1_hindi_lstm` contains code for task 2 part (a).
+* `task2/2_bengali_lstm_pret` contains  code for task 2 parts (b), (c) & (d).
 
 ### task3: Challenge Task
 * `task3/hindi` contains code for improved Hindi Sentiment Classifier.
