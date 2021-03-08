@@ -18,7 +18,8 @@ def train_model(model, optimizer, bengali_dataloader, hindi_dataloader,
                 bengali_data, hindi_data, max_epochs, config_dict):
     device = config_dict['device']
     criterion = nn.BCELoss() ## since we are doing binary classification
-    max_accuracy = 1e-3
+    max_accuracy_hindi = 1e-3
+    max_accuracy_bengali = 1e-3
     for epoch in range(max_epochs):
         
         logging.info('Epoch: {}'.format(epoch))
@@ -74,10 +75,15 @@ def train_model(model, optimizer, bengali_dataloader, hindi_dataloader,
         logging.info("Hindi Val loss: {} - Hindi Val acc: {} -- Bengali Val loss: {} - Bengali Val acc: {}".format(hindi_val_loss, hindi_val_acc, ben_val_loss, ben_val_acc))
         
         val_acc = np.mean(hindi_val_acc + ben_val_acc)
-        if val_acc > max_accuracy:
-            max_accuracy = val_acc
-            logging.info('new model saved') ## save the model if it is better than the prior best 
-            torch.save(model.state_dict(), '{}.pth'.format(config_dict['model_name']))
+        if hindi_val_acc > max_accuracy_hindi:
+            max_accuracy_hindi = hindi_val_acc
+            logging.info('new hindi model saved') ## save the model if it is better than the prior best 
+            torch.save(model.state_dict(), '{}.pth'.format(config_dict['hindi_model_name']))
+        
+        if ben_val_acc > max_accuracy_bengali:
+          max_accuracy_bengali = ben_val_acc
+          logging.info('new bengali model saved') ## save the model if it is better than the prior best 
+          torch.save(model.state_dict(), '{}.pth'.format(config_dict['bengali_model_name']))
 
 
 def attention_penalty_loss(annotation_weight_matrix, penalty_coef, device):

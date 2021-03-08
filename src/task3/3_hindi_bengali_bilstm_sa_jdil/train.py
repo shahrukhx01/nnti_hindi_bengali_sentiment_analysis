@@ -78,12 +78,12 @@ def train_model(model, optimizer, bengali_dataloader, hindi_dataloader,
         if hindi_val_acc > max_accuracy_hindi:
             max_accuracy_hindi = hindi_val_acc
             logging.info('new hindi model saved') ## save the model if it is better than the prior best 
-            torch.save(model.state_dict(), 'hindi_{}.pth'.format(config_dict['model_name']))
+            torch.save(model.state_dict(), '{}.pth'.format(config_dict['hindi_model_name']))
         
         if ben_val_acc > max_accuracy_bengali:
           max_accuracy_bengali = ben_val_acc
           logging.info('new bengali model saved') ## save the model if it is better than the prior best 
-          torch.save(model.state_dict(), 'bengali_{}.pth'.format(config_dict['model_name']))
+          torch.save(model.state_dict(), '{}.pth'.format(config_dict['bengali_model_name']))
 
 
 def attention_penalty_loss(annotation_weight_matrix, penalty_coef, device):
