@@ -3,7 +3,7 @@
 
 * `data` directory contains stopwords and bengali subset dataset files.
 * `artefacts` contains checkpointed/saved word embeddings and PyTorch models which performed best on development set for different hyper-parameter configurations.
-* `Bengali_BiLSTM_Attention_Binary_Classifier.ipynb` contains the runtime code for training classifier on train set and evaluating on test set.
+* `Sentiment_Net.ipynb.ipynb` contains the runtime code for training classifier on train set and evaluating on test set.
 * `bengali_dataset.py` extends standard PyTorch dataset utility to conveniently batch data.
 * `bengali_subset_data.py` script for splitting Bengali dataset which is roughly equal to Hindi dataset.
 * `config.py` python script which exports all configurations for hyper-parameters, saving and loading models as python dictionary.
