@@ -1,5 +1,4 @@
 # Joint Dual Input Learning with Self Attentive Sentence Embeddings
-![Joint Dual Input Learning Ideation](https://github.com/shahrukhx01/nnti_hindi_bengali_sentiment_analysis/blob/main/src/task3/3_hindi_bengali_bilstm_sa_jdil/sentiment_net_ideation.png)
 ## Directory structure
 
 * `data` directory contains stopwords and bengali subset dataset files.
@@ -14,3 +13,5 @@
 * `model.py` contains the main structure for binary classifier using PyTorch's `nn.Module` class to create layers and implement forward pass.
 * `preprocess.py` implements the data preprocessing pipelines for text field and returns the dataframe by adding extra column as `clean_text` to it.
 * `train.py` responsible for training the model and monitoring development set accuracy for checkpointing model after each epoch.
+
+![Joint Dual Input Learning Ideation](https://github.com/shahrukhx01/nnti_hindi_bengali_sentiment_analysis/blob/main/src/task3/3_hindi_bengali_bilstm_sa_jdil/sentiment_net_ideation.png)
