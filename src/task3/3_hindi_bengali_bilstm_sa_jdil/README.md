@@ -1,4 +1,4 @@
-# Multi Task Learning with Self Attentive Sentence Embeddings
+# Joint Dual Input Learning with Self Attentive Sentence Embeddings
 
 ## Directory structure
 
