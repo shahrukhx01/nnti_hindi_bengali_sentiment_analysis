@@ -42,7 +42,7 @@ def main():
     
     ## training the model on train set
     #train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
-    
+    print(config_dict['model_name'])
     ## evaluate model on test set
     evaluate_test_set(model, data, bengali_dataloader, device=config_dict['device'])
 
