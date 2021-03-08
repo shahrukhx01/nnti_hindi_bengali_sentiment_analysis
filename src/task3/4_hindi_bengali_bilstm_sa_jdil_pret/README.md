@@ -1,4 +1,4 @@
-# Joint Dual Input Learning with Self Attentive Sentence Embeddings
+# Joint Dual Input Learning with Self Attentive Sentence Embeddings with Transfer Learning
 ## Directory structure
 
 * `data` directory contains stopwords and bengali subset dataset files.
