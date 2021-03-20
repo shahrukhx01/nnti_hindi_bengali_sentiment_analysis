@@ -5,11 +5,11 @@ For centrally managing all hyper parameters, file paths and config parameters
 
 ## hyper parameters for neural network
 
-batch_size = 64
-num_classes = 2
-hidden_size = 32
+batch_size = 16
+out_size = 1
+hidden_size = 64
 embedding_size = 300
-lstm_layers = 6
+lstm_layers = 8
 epochs = 30
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -26,7 +26,7 @@ file_paths = \
 config_dict = {
     'file_paths': file_paths, 
     'batch_size': batch_size, 
-    'num_classes': num_classes,
+    'out_size': out_size,
     'lstm_layers': lstm_layers,
     'hidden_size': hidden_size,
     'epochs': epochs,

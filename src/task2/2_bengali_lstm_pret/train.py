@@ -27,15 +27,15 @@ def train_model(model, optimizer, dataloader, data, max_epochs, config_dict):
             model.zero_grad()
 
             pred = model(torch.autograd.Variable(batch).to(device), lengths.cpu().numpy()) ## perform forward pass         
-            predictions = torch.max(pred, 1)[0].float() ## get the prediction values
-            loss = criterion(predictions.to(device), torch.autograd.Variable(targets.float()).to(device)) ## compute loss 
+            pred = torch.squeeze(pred)
+            loss = criterion(pred.to(device), torch.autograd.Variable(targets.float()).to(device)) ## compute loss 
 
             loss.backward() ## perform backward pass
             optimizer.step() ## update weights
      
-            pred_idx = torch.max(pred, 1)[1] ## get pred ids
             y_true += list(targets.int().numpy()) ## accumulate targets from batch
-            y_pred += list(pred_idx.data.int().detach().cpu().numpy()) ## accumulate preds from batch 
+            pred_val = pred >= 0.5
+            y_pred += list(pred_val.data.int().detach().cpu().numpy()) ## accumulate preds from batch 
             total_loss += loss ## accumulate train loss
 
         acc = accuracy_score(y_true, y_pred) ## computing accuracy using sklearn's function
@@ -64,11 +64,11 @@ def evaluate_dev_set(model, data, criterion, data_loader, device):
         batch, targets, lengths = data.sort_batch(batch, targets, lengths) ## sorts the batch wrt the length of sequences
 
         pred = model(torch.autograd.Variable(batch).to(device), lengths.cpu().numpy()) ## perform forward pass                    
-        predictions = torch.max(pred, 1)[0].float()
-        pred_idx = torch.max(pred, 1)[1]
-        loss = criterion(predictions.to(device), torch.autograd.Variable(targets.float()).to(device)) ## compute loss 
+        pred = torch.squeeze(pred)
+        loss = criterion(pred.to(device), torch.autograd.Variable(targets.float()).to(device)) ## compute loss 
         y_true += list(targets.int())
-        y_pred += list(pred_idx.data.int().detach().cpu().numpy())
+        pred_val = pred >= 0.5
+        y_pred += list(pred_val.data.int().detach().cpu().numpy())
         total_loss += loss
 
     acc = accuracy_score(y_true, y_pred) ## computing accuracy using sklearn's function

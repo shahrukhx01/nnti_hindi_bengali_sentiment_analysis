@@ -17,7 +17,7 @@ def main():
     assert embedding_weights.T.shape == (len(data.vocab), config_dict['embedding_size']), "Pre-trained embeddings size not equal to size of embedding layer"
 
     ## create model instance  with configurations coming from config file
-    model = HindiLSTMClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
+    model = HindiLSTMClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['out_size'], 
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
                                 lstm_layers=config_dict['lstm_layers'], device=config_dict['device']).to(config_dict['device'])
@@ -36,9 +36,8 @@ def main():
         print('model loaded...')
     except:
         print('no prior model')
-    
     ## training the model on train set
-    train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
+    #train_model(model, optimizer, hasoc_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
 
     ## evaluate model on test set
     evaluate_test_set(model, data, hasoc_dataloader, device=config_dict['device'])

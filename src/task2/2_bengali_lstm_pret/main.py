@@ -17,7 +17,7 @@ def main():
     assert embedding_weights.T.shape == (len(data.vocab), config_dict['embedding_size']), "Pre-trained embeddings size not equal to size of embedding layer"
 
     ## create model instance  with configurations coming from config file
-    model = BengaliLSTMClassifier(pretrained_state_dict_path= config_dict['file_paths']['pretrained_path'], batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
+    model = BengaliLSTMClassifier(pretrained_state_dict_path= config_dict['file_paths']['pretrained_path'], batch_size=config_dict['batch_size'], output_size=config_dict['out_size'], 
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
                                 lstm_layers=config_dict['lstm_layers'], device=config_dict['device']).to(config_dict['device'])
@@ -38,7 +38,7 @@ def main():
         print('no prior model')
     
     ## training the model on train set
-    train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
+    #train_model(model, optimizer, bengali_dataloader, data, max_epochs=config_dict['epochs'],config_dict=config_dict)
     ## evaluate model on test set
     evaluate_test_set(model, data, bengali_dataloader, device=config_dict['device'])
 

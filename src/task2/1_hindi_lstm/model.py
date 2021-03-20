@@ -34,7 +34,7 @@ class HindiLSTMClassifier(nn.Module):
 		self.lstm = nn.LSTM(embedding_size, hidden_size, num_layers=lstm_layers)
 		self.out = nn.Linear(hidden_size, output_size)
 		self.sigmoid = nn.Sigmoid()
-		self.dropout_layer = nn.Dropout(p=0.2)
+		self.dropout_layer = nn.Dropout(p=0.5)
 		
 	def init_hidden(self, batch_size):
 		"""
