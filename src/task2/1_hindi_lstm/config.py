@@ -15,7 +15,7 @@ file_paths = \
 
 batch_size = 32
 out_size = 1
-hidden_size = 32
+hidden_size = 64
 embedding_size = 300
 lstm_layers = 8
 epochs = 30

@@ -7,7 +7,7 @@ For centrally managing all hyper parameters, file paths and config parameters
 ## hyper parameters for neural network
 
 batch_size = 64
-num_classes = 2
+out_size = 1
 hidden_size = 32
 embedding_size = 300
 lstm_layers = 8
@@ -15,14 +15,11 @@ epochs = 20
 fc_hidden_size = 2000
 is_bi_lstm = True
 
-
-
-
 ## self attention config
 self_attention_config = {   
-    'hidden_size': 300, ## refers to variable 'da' in the ICLR paper
+    'hidden_size': 200, ## refers to variable 'da' in the ICLR paper
     'output_size': 10, ## refers to variable 'r' in the ICLR paper
-    'penalty': 0.0 ## refers to penalty coefficient term in the ICLR paper
+    'penalty': 1.0 ## refers to penalty coefficient term in the ICLR paper
 }
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -40,7 +37,7 @@ file_paths = \
 config_dict = {
     'file_paths': file_paths, 
     'batch_size': batch_size, 
-    'num_classes': num_classes,
+    'out_size': out_size,
     'lstm_layers': lstm_layers,
     'hidden_size': hidden_size,
     'epochs': epochs,

@@ -22,11 +22,10 @@ def evaluate_test_set(model, data, data_loader, device):
         batch, targets, lengths = data.sort_batch(batch, targets, lengths) ## sorts the batch wrt the length of sequences
         pred, annotation_weight_matrix = model(torch.autograd.Variable(batch).to(device), lengths.cpu().numpy()) ## perform forward pass                    
        
-        predictions = torch.max(pred, 1)[0].float()
-        pred_idx = torch.max(pred, 1)[1]
-
+        pred = torch.squeeze(pred)
         y_true += list(targets.int())
-        y_pred += list(pred_idx.data.int().detach().cpu().numpy())
+        pred_val = pred >=0.5
+        y_pred += list(pred_val.data.int().detach().cpu().numpy())
 
         ## commented script for visualizing attention in sequences
         """data_out = []
