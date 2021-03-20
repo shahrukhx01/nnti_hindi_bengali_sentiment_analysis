@@ -17,7 +17,7 @@ def main():
     assert embedding_weights.T.shape == (len(data.vocab), config_dict['embedding_size']), "Pre-trained embeddings size not equal to size of embedding layer"
 
     ## create model instance  with configurations coming from config file
-    model = HindiLSTMAttentionClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['num_classes'], 
+    model = HindiLSTMAttentionClassifier(batch_size=config_dict['batch_size'], output_size=config_dict['out_size'], 
                                 vocab_size=len(data.vocab), hidden_size=config_dict['hidden_size'], 
                                 embedding_size=config_dict['embedding_size'], weights=torch.FloatTensor(embedding_weights.T),
                                 lstm_layers=config_dict['lstm_layers'], device=config_dict['device'],
