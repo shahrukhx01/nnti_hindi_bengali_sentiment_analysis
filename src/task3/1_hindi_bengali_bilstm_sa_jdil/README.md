@@ -14,4 +14,4 @@
 * `hindi_preprocess.py` & `bengali_preprocess.py` implements the data preprocessing pipelines for text field and returns the dataframe by adding extra column as `clean_text` to it.
 * `train.py` responsible for training the model and monitoring development set accuracy for checkpointing model after each epoch.
 
-![Joint Dual Input Learning Ideation](https://github.com/shahrukhx01/nnti_hindi_bengali_sentiment_analysis/blob/main/src/task3/3_hindi_bengali_bilstm_sa_jdil/sentiment_net_ideation.png)
+![Joint Dual Input Learning Ideation](https://github.com/shahrukhx01/nnti_hindi_bengali_sentiment_analysis/blob/main/src/task3/1_hindi_bengali_bilstm_sa_jdil/sentiment_net_ideation.png)
