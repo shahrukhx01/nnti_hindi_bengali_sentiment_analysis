@@ -12,7 +12,7 @@ binary classification model
 class SentimentNet(nn.Module):
 	def __init__(self, batch_size, output_size, hidden_size, hindi_vocab_size, bengali_vocab_size, 
 				embedding_size, hindi_weights, bengali_weights, lstm_layers, device, 
-				bidirectional, self_attention_config, fc_hidden_size, pretrained_path):
+				bidirectional, self_attention_config, fc_hidden_size):
 		super(SentimentNet, self).__init__()
 		"""
         Initializes model layers and loads pre-trained embeddings from task 1
@@ -29,7 +29,6 @@ class SentimentNet(nn.Module):
 		self.bidirectional = bidirectional
 		self.fc_hidden_size = fc_hidden_size
 		self.lstm_directions = 2  if self.bidirectional else 1 ## decide directions based on input flag
-		self.pretrained = pretrained_path
 
 		## model layers
 		# initializing the look-up table.

@@ -29,9 +29,7 @@ bengali_file_paths = \
 {
 'data_file': 'data/bengali_hatespeech_subset.csv',\
 'stpwds_file':'data/stopwords-bn.txt',\
-'embeddings_path':'artefacts/bengali_embedding_weights_all_window_2.pickle',
-'pretrained_path':'artefacts/pre_trained_hindi/hindi_classifier_attention_h{}_l{}_p{}_r{}.pth'.format(hidden_size, lstm_layers, 
-                                                str(self_attention_config['penalty']).replace(".","_"), self_attention_config['output_size'])
+'embeddings_path':'artefacts/bengali_embedding_weights_all_window_2.pickle'
 }
 
 hindi_file_paths = \

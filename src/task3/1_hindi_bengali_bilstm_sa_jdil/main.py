@@ -26,9 +26,9 @@ def main():
     ## create model instance  with configurations coming from config file
     model = SentimentNet(batch_size=config_dict['batch_size'], output_size=config_dict['out_size'], 
                             bengali_vocab_size=len(bengali_data.vocab), hidden_size=config_dict['hidden_size'], 
-                            embedding_size=config_dict['embedding_size'], hindi_weights=torch.FloatTensor(hindi_embedding_weights.T), bengali_weights=torch.FloatTensor(bengali_embedding_weights.T),
-                            lstm_layers=config_dict['lstm_layers'], device=config_dict['device'], hindi_vocab_size=len(hindi_data.vocab),
-                            bidirectional=config_dict['is_bi_lstm'], pretrained_path=config_dict['bengali_file_paths']['pretrained_path'],
+                            embedding_size=config_dict['embedding_size'], hindi_weights=torch.FloatTensor(hindi_embedding_weights.T), 
+                            bengali_weights=torch.FloatTensor(bengali_embedding_weights.T), lstm_layers=config_dict['lstm_layers'], device=config_dict['device'], 
+                            hindi_vocab_size=len(hindi_data.vocab), bidirectional=config_dict['is_bi_lstm'], 
                             self_attention_config=config_dict['self_attention_config'], fc_hidden_size=config_dict['fc_hidden_size']).to(config_dict['device'])
 
     ## get dataloaders for train and test set
