@@ -31,10 +31,6 @@ def main():
                             bidirectional=config_dict['is_bi_lstm'], pretrained_path=config_dict['bengali_file_paths']['pretrained_path'],
                             self_attention_config=config_dict['self_attention_config'], fc_hidden_size=config_dict['fc_hidden_size']).to(config_dict['device'])
 
-    ## load pre_trained layers
-    if config_dict['pretraining']:
-        model.load_pretrained_layers()
-
     ## get dataloaders for train and test set
     bengali_dataloader = bengali_data.get_data_loader(batch_size=config_dict['batch_size'])
     hindi_dataloader = hindi_data.get_data_loader(batch_size=config_dict['batch_size'])

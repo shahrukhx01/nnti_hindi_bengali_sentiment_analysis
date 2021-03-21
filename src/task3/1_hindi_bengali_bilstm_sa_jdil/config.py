@@ -14,7 +14,6 @@ lstm_layers = 8
 epochs = 20
 fc_hidden_size = 2000
 is_bi_lstm = True
-pretraining = False ## flag for whether to load pretrained Hindi model or not
 
 
 ## self attention config
@@ -45,9 +44,6 @@ hindi_file_paths = \
 model_name = 'sentiment_net_h{}_l{}_p{}_r{}'.format(hidden_size, lstm_layers, 
                                                 str(self_attention_config['penalty']).replace(".","_"), self_attention_config['output_size'])
 
-if pretraining:
-    model_name = 'pret_' + model_name
-
 ## configuration dictionary
 config_dict = {
     'bengali_file_paths': bengali_file_paths, 
@@ -63,6 +59,5 @@ config_dict = {
     'device': device,
     'is_bi_lstm': is_bi_lstm, 
     'self_attention_config': self_attention_config,
-    'fc_hidden_size': fc_hidden_size,
-    'pretraining': pretraining
+    'fc_hidden_size': fc_hidden_size
     }

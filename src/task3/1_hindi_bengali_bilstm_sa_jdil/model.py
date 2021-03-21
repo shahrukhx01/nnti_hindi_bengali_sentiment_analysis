@@ -138,29 +138,6 @@ class SentimentNet(nn.Module):
 		final_output = self.sigmoid(out) ## using sigmoid since binary labels
 		
 		return final_output, annotation_weight_matrix
-
-		
-	def load_pretrained_layers(self):
-		"""
-        Loads pretrained LSTM and FC layers from hindi classifier
-        """
-		print(self.pretrained)
-		state_dict = None
-		try:
-			## load pretrained weights
-			state_dict = torch.load(self.pretrained, map_location=torch.device(self.device)) 
-		except Exception as e:
-			print("No pretrained model exists for current architecture!")
-			return
-			
-		print('Loading pretrained weights...')
-		
-		## iterating over pretrained state dict and copying weights to own state dict except embeddings
-		for name, param in state_dict.items():
-			if name not in self.state_dict() or 'self_attention' in name or name == 'word_embeddings.weight':
-				print('Skipping the following layer(s): {}'.format(name))
-				continue
-			self.state_dict()[name].copy_(param.data)
 		
 
 class SelfAttention(nn.Module):
