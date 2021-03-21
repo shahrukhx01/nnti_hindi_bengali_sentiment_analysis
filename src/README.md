@@ -10,10 +10,7 @@
 * `task2/2_bengali_lstm_pret` contains  code for task 2 parts (b), (c) & (d) i.e, Bengali-LSTM + PRET classifier and Bengali Word Embeddings.
 
 ### task3: Challenge Task
-* `task3/1_hindi_bilstm_sa` contains code for Hindi-BiLSTM SA Sentiment Classifier.
-* `task3/2_bengali_bilstm_sa_pret` contains  code for Bengali-BiLSTM SA + PRET Sentiment Classifier.
-* `task3/3_hindi_bengali_bilstm_sa_jdil` contains code for  Hindi/Bengali-BiLSTM SA + JDIL  Sentiment Classifier.
-* `task3/4_hindi_bengali_bilstm_sa_jdil_pret` contains code for  Hindi/Bengali-BiLSTM SA + JDIL + PRET Sentiment Classifier.
+* `task3/1_hindi_bengali_bilstm_sa_jdil` contains code for  Hindi/Bengali-BiLSTM SA + JDIL  Sentiment Classifier.
 
 
 ## Code References
