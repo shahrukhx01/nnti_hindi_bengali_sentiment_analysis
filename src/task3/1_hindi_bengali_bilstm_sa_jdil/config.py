@@ -20,7 +20,7 @@ is_bi_lstm = True
 self_attention_config = {   
     'hidden_size': 150, ## refers to variable 'da' in the ICLR paper
     'output_size': 20, ## refers to variable 'r' in the ICLR paper
-    'penalty': .6 ## refers to penalty coefficient term in the ICLR paper
+    'penalty': 0.6 ## refers to penalty coefficient term in the ICLR paper
 }
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
