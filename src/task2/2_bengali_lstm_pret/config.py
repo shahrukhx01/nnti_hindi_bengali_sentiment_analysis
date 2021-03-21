@@ -5,9 +5,9 @@ For centrally managing all hyper parameters, file paths and config parameters
 
 ## hyper parameters for neural network
 
-batch_size = 16
+batch_size = 32
 out_size = 1
-hidden_size = 32
+hidden_size = 64
 embedding_size = 300
 lstm_layers = 8
 epochs = 30
