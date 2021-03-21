@@ -20,7 +20,6 @@ def evaluate_hindi_test_set(model, model_name, data, data_loader, device):
     
     model.eval()
     logging.info('Evaluating accuracy on Hindi test set')
-    torch.save(model.state_dict(), 'hindi_model.pth')
     target_names = ['non hate speech', 'hate speech']
     y_true = list()
     y_pred = list()
