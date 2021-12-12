@@ -14,4 +14,4 @@
 * `main.py` alternate to `Bengali_Transfer_Learning_Binary_Classifier.ipynb` if you prefer shell based training/testing of model.
 * `model.py` contains the main structure for binary classifier using PyTorch's `nn.Module` class to create layers and implement forward pass.
 * `preprocess.py` implements the data preprocessing pipelines for text field and returns the dataframe by adding extra column as `clean_text` to it.
-* `train.py` responsible for training the model and monitoring development set accuracy for checkpointing model after each epoch.
+* `train.py` responsible for training the model and monitoring development set accuracy for checkpointing model after each epoch
