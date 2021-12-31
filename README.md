@@ -1,6 +1,10 @@
 # NNTI Final Project (Sentiment Analysis & Transfer Learning)
 NNTI (WS-2021), Saarland University, Germany
 
+## Our Novel Approach
+
+![Joint Dual Input Learning Ideation](https://github.com/shahrukhx01/nnti_hindi_bengali_sentiment_analysis/blob/main/src/task3/1_hindi_bengali_bilstm_sa_jdil/sentiment_net_ideation.png)
+
 ## Introduction
 This is a final project for the course **Neural Networks: Theory and Implementation (NNTI)**. This project will introduce you to Sentiment Classification and Analysis. *Sentiment analysis* (also known as *opinion mining* or *emotion AI*) refers to the use of natural language processing, text analysis, computational linguistics, and/or biometrics to systematically identify, extract, quantify, and study affective states and subjective information. *Transfer learning* is a machine learning research problem focusing on storing knowledge gained while solving one problem and applying it to a different but related problem. In this project, we want you to create a neural sentiment classifier completely from scratch. You  first train it  on  one  type  of  dataset  and  then apply it  to  another  related  but  different dataset.  You are expected to make use of concepts that you have learnt in the lecture.  The project is divided into three tasks, the details of which you can find below.
 
